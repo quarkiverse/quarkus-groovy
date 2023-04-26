@@ -11,7 +11,7 @@
     </parent>
 
     <artifactId>quarkus-groovy-integration-tests-resteasy-reactive</artifactId>
-    <name>Quarkus - Groovy - Integration Tests - RESTEasy Reactive Groovy tests</name>
+    <name>Quarkus Groovy - Integration Tests - RESTEasy Reactive Groovy tests</name>
 
     <dependencies>
         <dependency>

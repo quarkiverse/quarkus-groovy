@@ -7,7 +7,7 @@
     <version>999-SNAPSHOT</version>
   </parent>
   <artifactId>quarkus-groovy</artifactId>
-  <name>Quarkus - Groovy - Runtime</name>
+  <name>Quarkus Groovy - Runtime</name>
   <description>Write your services in Groovy</description>
   <dependencies>
     <dependency>
