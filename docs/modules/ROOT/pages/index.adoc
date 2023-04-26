@@ -1,0 +1,17 @@
+= Quarkus Groovy
+:extension-status: preview
+
+Quarkus Groovy is a Quarkus extension allowing to write Quarkus applications in Groovy.
+
+== Installation
+
+If you want to use this extension, you need to add the `io.quarkiverse.groovy:quarkus-groovy` extension first.
+In your `pom.xml` file, add:
+
+[source,xml]
+----
+<dependency>
+    <groupId>io.quarkiverse.groovy</groupId>
+    <artifactId>quarkus-groovy</artifactId>
+</dependency>
+----
