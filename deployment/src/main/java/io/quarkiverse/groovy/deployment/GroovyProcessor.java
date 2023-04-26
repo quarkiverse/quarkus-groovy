@@ -40,14 +40,15 @@ import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.pkg.steps.NativeBuild;
 import io.quarkus.jackson.spi.ClassPathJacksonModuleBuildItem;
 
-public class GroovyProcessor {
+class GroovyProcessor {
 
+    private static final String FEATURE = "groovy";
     private static final String GROOVY_JACKSON_MODULE = "com.fasterxml.jackson.module.groovy.GroovyModule";
     private static final String DGM_FORMAT_NAME = "org.codehaus.groovy.runtime.dgm$%d";
 
     @BuildStep
     FeatureBuildItem feature() {
-        return new FeatureBuildItem("groovy");
+        return new FeatureBuildItem(FEATURE);
     }
 
     /*
