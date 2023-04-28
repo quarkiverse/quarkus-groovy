@@ -13,8 +13,10 @@
   <packaging>pom</packaging>
   <name>Quarkus Groovy - Parent</name>
   <modules>
-    <module>deployment</module>
-    <module>runtime</module>
+    <module>core</module>
+    <module>hibernate-orm-panache</module>
+    <module>jaxb</module>
+    <module>junit5</module>
     <module>integration-tests</module>
     <module>docs</module>
   </modules>
@@ -29,6 +31,7 @@
     <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
     <groovy.version>4.0.11</groovy.version>
     <groovy-maven-plugin.version>2.1.0</groovy-maven-plugin.version>
+    <docker-maven-plugin.version>0.42.1</docker-maven-plugin.version>
     <assertj.version>3.24.2</assertj.version>
   </properties>
   <dependencyManagement>
@@ -68,6 +71,21 @@
         <version>${project.version}</version>
       </dependency>
       <dependency>
+        <groupId>io.quarkiverse.groovy</groupId>
+        <artifactId>quarkus-groovy-junit5</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.quarkiverse.groovy</groupId>
+        <artifactId>quarkus-groovy-hibernate-orm-panache</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.quarkiverse.groovy</groupId>
+        <artifactId>quarkus-groovy-jaxb</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.assertj</groupId>
         <artifactId>assertj-core</artifactId>
         <version>${assertj.version}</version>
@@ -86,6 +104,11 @@
         <plugin>
           <artifactId>maven-compiler-plugin</artifactId>
           <version>${compiler-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>io.fabric8</groupId>
+          <artifactId>docker-maven-plugin</artifactId>
+          <version>${docker-maven-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
