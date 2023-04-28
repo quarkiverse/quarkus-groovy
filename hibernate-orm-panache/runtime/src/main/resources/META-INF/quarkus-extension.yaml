@@ -1,0 +1,20 @@
+---
+artifact: ${project.groupId}:${project.artifactId}:${project.version}
+name: "Hibernate ORM with Panache in Groovy"
+metadata:
+  keywords:
+  - "hibernate-orm-panache-groovy"
+  - "panache"
+  - "hibernate"
+  - "jpa"
+  - "groovy"
+  categories:
+  - "data"
+  status: "stable"
+  config:
+  - "quarkus.datasource."
+  - "quarkus.hibernate-orm."
+  codestart:
+    name: "hibernate-orm"
+    languages: ["groovy"]
+    artifact: "io.quarkiverse.groovy:quarkus-groovy-hibernate-orm-panache:codestarts:jar:${project.version}"
