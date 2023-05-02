@@ -2,7 +2,7 @@
 
 include::./includes/attributes.adoc[]
 
-Quarkus Groovy is a Quarkus extension allowing to write Quarkus applications in Groovy.
+Quarkus Groovy is a Quarkus extension allowing to write Quarkus applications in Groovy. This extension allows developers to take advantage of the characteristics of both technologies, combining the agility and expressiveness of the Groovy language with the efficiency and ease of development of Quarkus.
 
 == Installation
 
@@ -17,4 +17,43 @@ For instance, with Maven, add the following dependency to your POM file:
     <artifactId>quarkus-groovy</artifactId>
     <version>{project-version}</version>
 </dependency>
+----
+
+
+For instance, with Gradle, add the following dependency to your build.gradle file:
+
+[source,groovy,subs=attributes+]
+----
+implementation 'io.quarkiverse.groovy:quarkus-groovy:{project-version}'
+----
+
+
+== Compile Static
+
+The Quarkus project was designed with performance in mind, using Groovy's CompileStatic annotation can improve the performance of the project. This annotation enforces static compilation of the code, allowing verification of types and method resolution during compilation rather than at runtime as is common in Groovy.
+
+
+Code example
+
+[source,groovy,subs=attributes+]
+----
+package org.acme.groovy
+
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
+import jakarta.ws.rs.Produces
+import jakarta.ws.rs.core.MediaType
+import groovy.transform.CompileStatic
+
+@CompileStatic
+@Path("/hello")
+class GreetingResource {
+
+    @GET
+    @Produces(MediaType.TEXT_PLAIN)
+    String get() {
+        return 'Hello Word'
+    }
+
+}
 ----
