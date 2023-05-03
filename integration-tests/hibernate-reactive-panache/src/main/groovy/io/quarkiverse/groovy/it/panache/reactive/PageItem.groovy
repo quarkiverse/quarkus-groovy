@@ -14,17 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import jakarta.persistence.Entity
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheEntity
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
-    }
+@Entity
+class PageItem extends PanacheEntity {
 }

@@ -14,17 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import jakarta.annotation.Priority
+import jakarta.enterprise.context.ApplicationScoped
+import jakarta.enterprise.inject.Alternative
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
-
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
-    }
+/**
+ * An alternate implementation of {@link PersonRepository} to demonstrate that Repository entity type can be retrieved
+ * even when the class does not directly implement PanacheRepository interface.
+ */
+@Alternative
+@Priority(1)
+@ApplicationScoped
+class MockPersonRepository extends PersonRepository {
 }

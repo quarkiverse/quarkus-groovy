@@ -14,17 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheRepositoryBase
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
-
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
-    }
+class AbstractRepository<T> implements PanacheRepositoryBase<T, String> {
 }

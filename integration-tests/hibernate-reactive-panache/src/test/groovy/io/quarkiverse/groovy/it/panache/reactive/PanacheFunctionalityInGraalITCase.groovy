@@ -14,17 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import io.quarkus.test.junit.QuarkusIntegrationTest
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+/**
+ * Test various Panache operations running in native mode
+ */
+@QuarkusIntegrationTest
+class PanacheFunctionalityInGraalITCase extends PanacheFunctionalityTest {
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
+    @Override
+    void setPersonDao(PersonRepository personDao) {
+        // Do Nothing
     }
 }

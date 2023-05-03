@@ -14,17 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import groovy.transform.EqualsAndHashCode
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.IdClass
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheEntityBase
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
+@Entity
+@IdClass(ObjectWithCompositeId.ObjectKey.class)
+class ObjectWithCompositeId extends PanacheEntityBase {
+    @Id
+    public String part1
+    @Id
+    public String part2
+    public String description
+
+    @EqualsAndHashCode(includeFields=true)
+    static class ObjectKey implements Serializable {
+        private String part1
+        private String part2
+
+        ObjectKey() {
+        }
+
+        ObjectKey(part1, part2) {
+            this.part1 = part1
+            this.part2 = part2
+        }
     }
 }

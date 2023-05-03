@@ -14,17 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.hibernate.reactive.panache.deployment;
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import org.jboss.jandex.ClassInfo;
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import io.quarkus.builder.item.MultiBuildItem;
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
+/**
+ * Represents a regular Panache entity class.
+ */
+public final class PanacheEntityClassBuildItem extends MultiBuildItem {
+
+    private final ClassInfo entityClass;
+
+    public PanacheEntityClassBuildItem(ClassInfo entityClass) {
+        this.entityClass = entityClass;
     }
+
+    public ClassInfo get() {
+        return entityClass;
+    }
+
 }

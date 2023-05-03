@@ -14,17 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import jakarta.persistence.Entity
+import jakarta.persistence.ManyToOne
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheEntity
 
-    PersonName(uniqueName, name) {
+@Entity
+class Cat extends PanacheEntity {
+
+    String name
+
+    @ManyToOne
+    CatOwner owner
+
+    Double weight
+
+    Cat(owner) {
+        this(null, owner, null)
+    }
+
+    Cat(name, owner) {
+        this(name, owner, null)
+    }
+
+    Cat(name, owner, weight) {
         this.name = name
-        this.uniqueName = uniqueName
+        this.owner = owner
+        this.weight = weight
+    }
+
+    Cat() {
     }
 }

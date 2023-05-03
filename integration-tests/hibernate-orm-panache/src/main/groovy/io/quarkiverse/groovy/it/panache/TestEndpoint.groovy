@@ -17,7 +17,6 @@
 package io.quarkiverse.groovy.it.panache
 
 import groovy.transform.CompileStatic
-import io.quarkus.runtime.annotations.RegisterForReflection
 import jakarta.xml.bind.annotation.XmlElements
 
 import static org.junit.jupiter.api.Assertions.assertEquals
@@ -319,9 +318,9 @@ class TestEndpoint {
         Assertions.assertEquals(1, dogDao.deleteAll())
         Assertions.assertEquals(1, personDao.deleteAll())
 
-        testPersist(PersistTest.Iterable)
-        testPersist(PersistTest.Stream)
-        testPersist(PersistTest.Variadic)
+        testPersist(PersistTest.ENTITY_CLASS_Iterable)
+        testPersist(PersistTest.ENTITY_CLASS_Stream)
+        testPersist(PersistTest.ENTITY_CLASS_Variadic)
         Assertions.assertEquals(6, personDao.deleteAll())
 
         testSorting()
@@ -617,14 +616,14 @@ class TestEndpoint {
         assertFalse(person1.isPersistent())
         assertFalse(person2.isPersistent())
         switch (persistTest) {
-            case PersistTest.Iterable:
-                personDao.persist(Arrays.asList(person1, person2))
+            case PersistTest.ENTITY_CLASS_Iterable:
+                Person.persist(Arrays.asList(person1, person2))
                 break
-            case PersistTest.Stream:
-                personDao.persist(Stream.of(person1, person2))
+            case PersistTest.ENTITY_CLASS_Variadic:
+                Person.persist(Stream.of(person1, person2))
                 break
-            case PersistTest.Variadic:
-                personDao.persist(person1, person2)
+            case PersistTest.ENTITY_CLASS_Stream:
+                Person.persist(person1, person2)
                 break
         }
         assertTrue(person1.isPersistent())
@@ -802,9 +801,9 @@ class TestEndpoint {
         Assertions.assertEquals(1, dogDao.deleteAll())
         Assertions.assertEquals(1, personDao.deleteAll())
 
-        testPersistDao(PersistTest.Iterable)
-        testPersistDao(PersistTest.Stream)
-        testPersistDao(PersistTest.Variadic)
+        testPersistDao(PersistTest.DAO_Iterable)
+        testPersistDao(PersistTest.DAO_Stream)
+        testPersistDao(PersistTest.DAO_Variadic)
         Assertions.assertEquals(6, personDao.deleteAll())
 
         testSortingDao()
@@ -920,9 +919,12 @@ class TestEndpoint {
     }
 
     enum PersistTest {
-        Iterable,
-        Variadic,
-        Stream
+        DAO_Iterable,
+        DAO_Variadic,
+        DAO_Stream,
+        ENTITY_CLASS_Iterable,
+        ENTITY_CLASS_Variadic,
+        ENTITY_CLASS_Stream
     }
 
     private void testPersistDao(PersistTest persistTest) {
@@ -933,13 +935,13 @@ class TestEndpoint {
         assertFalse(person1.isPersistent())
         assertFalse(person2.isPersistent())
         switch (persistTest) {
-            case PersistTest.Iterable:
+            case PersistTest.DAO_Iterable:
                 personDao.persist(Arrays.asList(person1, person2))
                 break
-            case PersistTest.Stream:
+            case PersistTest.DAO_Variadic:
                 personDao.persist(Stream.of(person1, person2))
                 break
-            case PersistTest.Variadic:
+            case PersistTest.DAO_Stream:
                 personDao.persist(person1, person2)
                 break
         }
@@ -1344,12 +1346,11 @@ class TestEndpoint {
         }
 
         // no need to persist it, we can fake it
-        Person person = new Person().tap {
+        new Person().tap {
             id = 666l
             name = "Eddie"
             status = Status.DECEASED
         }
-        person
     }
 
     @Inject

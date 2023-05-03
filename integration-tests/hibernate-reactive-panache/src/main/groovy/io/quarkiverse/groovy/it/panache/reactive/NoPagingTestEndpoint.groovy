@@ -14,17 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import jakarta.inject.Inject
+import jakarta.ws.rs.GET
+import jakarta.ws.rs.Path
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import io.quarkiverse.groovy.hibernate.reactive.panache.Panache
+import io.smallrye.mutiny.Uni
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
+/**
+ * Run a simple, no paged PanacheQueryTest in order to log the generated SQL.
+ *
+ * @see io.quarkiverse.groovy.it.panache.reactive.NoPagingPMT
+ */
+@Path("no-paging-test")
+class NoPagingTestEndpoint {
+
+    @Inject
+    PageItemRepository repository
+
+    @GET
+    Uni<String> test() {
+        Panache.withTransaction(() -> repository.findAll().list().map(v -> "OK"))
     }
 }

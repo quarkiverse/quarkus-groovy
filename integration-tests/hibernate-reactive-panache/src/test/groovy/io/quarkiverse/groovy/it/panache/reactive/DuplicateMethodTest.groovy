@@ -14,17 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import static org.assertj.core.api.Assertions.assertThat
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import jakarta.inject.Inject
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
+import org.junit.jupiter.api.Test
+
+import io.quarkus.panache.common.Parameters
+import io.quarkus.test.junit.QuarkusTest
+
+@QuarkusTest
+class DuplicateMethodTest {
+
+    @Inject
+    DuplicateRepository repository
+
+    @Test
+    void shouldNotDuplicateMethodsInRepository() {
+        assertThat(repository.findById(1)).isNotNull()
+    }
+
+    @Test
+    void shouldNotDuplicateMethodsInEntity() {
+        DuplicateEntity entity = DuplicateEntity.<DuplicateEntity> findById(1).await().indefinitely()
+        assertThat(entity).isNotNull()
+        entity.persist().await().indefinitely()
+        DuplicateEntity.update("foo", Parameters.with("a", 1)).await().indefinitely()
     }
 }

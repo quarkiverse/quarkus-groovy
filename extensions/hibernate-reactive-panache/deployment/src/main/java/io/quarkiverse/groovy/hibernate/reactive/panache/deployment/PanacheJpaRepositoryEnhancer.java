@@ -14,17 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.hibernate.reactive.panache.deployment;
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import org.jboss.jandex.IndexView;
+import org.objectweb.asm.ClassVisitor;
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import io.quarkus.panache.common.deployment.PanacheRepositoryEnhancer;
+import io.quarkus.panache.common.deployment.visitors.PanacheRepositoryClassOperationGenerationVisitor;
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
+public class PanacheJpaRepositoryEnhancer extends PanacheRepositoryEnhancer {
+
+    public PanacheJpaRepositoryEnhancer(IndexView index) {
+        super(index);
+    }
+
+    @Override
+    public ClassVisitor apply(String className, ClassVisitor outputClassVisitor) {
+        return new PanacheRepositoryClassOperationGenerationVisitor(className, outputClassVisitor,
+                this.indexView, ReactiveGroovyJpaTypeBundle.BUNDLE);
     }
 }

@@ -14,17 +14,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
 import io.quarkus.runtime.annotations.RegisterForReflection
 
 @RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+class CatProjectionBean {
 
-    PersonName(uniqueName, name) {
+    final String name
+
+    final String ownerName
+
+    final Double weight
+
+    // Types need to be set properly to make sure that the projection works as expected
+    CatProjectionBean(String name, String ownerName) {
+        this(name, ownerName, null)
+    }
+
+    // Types need to be set properly to make sure that the projection works as expected
+    CatProjectionBean(String name, String ownerName, Double weight) {
         this.name = name
-        this.uniqueName = uniqueName
+        this.ownerName = ownerName
+        this.weight = weight
     }
 }

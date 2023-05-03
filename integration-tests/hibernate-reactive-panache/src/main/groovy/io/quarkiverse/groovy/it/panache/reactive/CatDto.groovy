@@ -14,17 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
+import io.quarkus.hibernate.reactive.panache.common.ProjectedFieldName
 import io.quarkus.runtime.annotations.RegisterForReflection
 
 @RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+class CatDto {
 
-    PersonName(uniqueName, name) {
+    String name
+
+    String ownerName
+
+    CatDto(name, @ProjectedFieldName("owner.name") ownerName) {
         this.name = name
-        this.uniqueName = uniqueName
+        this.ownerName = ownerName
     }
+
 }

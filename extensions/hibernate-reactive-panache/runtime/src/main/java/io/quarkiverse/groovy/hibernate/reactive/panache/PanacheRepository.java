@@ -14,17 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.hibernate.reactive.panache;
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+/**
+ * <p>
+ * Represents a Repository for a specific type of entity {@code Entity}, with an ID type
+ * of {@code Long}. Implementing this repository will gain you the exact same useful methods
+ * that are on {@link PanacheEntityBase}. If you have a custom ID strategy, you should
+ * implement {@link PanacheRepositoryBase} instead.
+ * </p>
+ *
+ * @param <Entity> The type of entity to operate on
+ */
+public interface PanacheRepository<Entity> extends PanacheRepositoryBase<Entity, Long> {
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
-
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
-    }
 }
