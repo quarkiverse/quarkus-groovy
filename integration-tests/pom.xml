@@ -15,6 +15,7 @@
     <module>shared-library</module>
     <module>resteasy-reactive</module>
     <module>hibernate-orm-panache</module>
+    <module>hibernate-reactive-panache</module>
   </modules>
   <build>
     <plugins>

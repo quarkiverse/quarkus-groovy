@@ -14,17 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import jakarta.enterprise.context.ApplicationScoped
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheRepositoryBase
+import io.smallrye.mutiny.Uni
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
+@ApplicationScoped
+class DuplicateRepository implements PanacheRepositoryBase<DuplicateEntity, Integer> {
+
+    @Override
+    Uni<DuplicateEntity> findById(Integer id) {
+        DuplicateEntity duplicate = new DuplicateEntity().tap {
+            it.id = id
+        }
+        Uni.createFrom().item(duplicate)
     }
 }

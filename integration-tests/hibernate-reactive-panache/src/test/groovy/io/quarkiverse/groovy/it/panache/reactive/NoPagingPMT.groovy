@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
 import static org.assertj.core.api.Assertions.assertThat
 import static org.awaitility.Awaitility.await
@@ -40,8 +40,8 @@ class NoPagingPMT {
 
     @RegisterExtension
     static final QuarkusProdModeTest config = new QuarkusProdModeTest()
-            .withApplicationRoot{jar -> jar
-                    .addClasses(PageItem.class, TestResources.class, NoPagingTestEndpoint.class, PageItemRepository.class)}
+            .withApplicationRoot { jar -> jar
+                        .addClasses(PageItem.class, NoPagingTestEndpoint.class, PageItemRepository.class) }
             .setApplicationName("no-paging-test")
             .setApplicationVersion(Version.getVersion())
             .setRun(true)

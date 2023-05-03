@@ -14,17 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
 import io.quarkus.runtime.annotations.RegisterForReflection
+import jakarta.persistence.Column
+import jakarta.persistence.MappedSuperclass
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheEntity
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
+@RegisterForReflection(targets = Objects.class)
+@MappedSuperclass
+class Bug7721EntitySuperClass extends PanacheEntity {
+
+    @Column(nullable = false)
+    public String superField = "default"
+
+    void setSuperField(String superField) {
+        Objects.requireNonNull(superField)
+        // should never be null
+        Objects.requireNonNull(this.superField)
+        this.superField = superField
     }
+
 }

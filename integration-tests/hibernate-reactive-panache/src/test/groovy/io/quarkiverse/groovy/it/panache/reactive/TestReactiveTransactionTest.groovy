@@ -14,17 +14,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.quarkiverse.groovy.it.panache
+package io.quarkiverse.groovy.it.panache.reactive
 
-import io.quarkus.runtime.annotations.RegisterForReflection
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 
-@RegisterForReflection
-class PersonName {
-    public final String name
-    public final String uniqueName
+import io.quarkiverse.groovy.hibernate.reactive.panache.Panache
+import io.quarkus.test.TestReactiveTransaction
+import io.quarkus.test.junit.QuarkusTest
+import io.quarkus.test.vertx.RunOnVertxContext
+import io.quarkus.test.vertx.UniAsserter
 
-    PersonName(uniqueName, name) {
-        this.name = name
-        this.uniqueName = uniqueName
+@QuarkusTest
+class TestReactiveTransactionTest {
+
+    @RunOnVertxContext
+    @TestReactiveTransaction
+    @Test
+    void testTestTransaction(UniAsserter asserter) {
+        asserter.assertNotNull({ Panache.currentTransaction() })
+    }
+
+    @RunOnVertxContext
+    @TestReactiveTransaction
+    @BeforeEach
+    void beforeEach(UniAsserter asserter) {
+        asserter.assertNotNull({ Panache.currentTransaction() })
     }
 }

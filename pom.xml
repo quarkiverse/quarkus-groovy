@@ -13,10 +13,7 @@
   <packaging>pom</packaging>
   <name>Quarkus Groovy - Parent</name>
   <modules>
-    <module>core</module>
-    <module>hibernate-orm-panache</module>
-    <module>jaxb</module>
-    <module>junit5</module>
+    <module>extensions</module>
     <module>integration-tests</module>
     <module>docs</module>
   </modules>
@@ -32,7 +29,10 @@
     <groovy.version>4.0.11</groovy.version>
     <groovy-maven-plugin.version>2.1.0</groovy-maven-plugin.version>
     <docker-maven-plugin.version>0.42.1</docker-maven-plugin.version>
+    <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
     <assertj.version>3.24.2</assertj.version>
+    <script.extension>sh</script.extension>
+    <docker-prune.location>${maven.multiModuleProjectDirectory}/.github/docker-prune.${script.extension}</docker-prune.location>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -82,6 +82,11 @@
       </dependency>
       <dependency>
         <groupId>io.quarkiverse.groovy</groupId>
+        <artifactId>quarkus-groovy-hibernate-reactive-panache</artifactId>
+        <version>${project.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.quarkiverse.groovy</groupId>
         <artifactId>quarkus-groovy-jaxb</artifactId>
         <version>${project.version}</version>
       </dependency>
@@ -109,6 +114,11 @@
           <groupId>io.fabric8</groupId>
           <artifactId>docker-maven-plugin</artifactId>
           <version>${docker-maven-plugin.version}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>exec-maven-plugin</artifactId>
+          <version>${exec-maven-plugin.version}</version>
         </plugin>
       </plugins>
     </pluginManagement>
