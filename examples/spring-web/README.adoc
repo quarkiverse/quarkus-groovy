@@ -1,0 +1,36 @@
+= Spring Web Example
+
+== Introduction
+
+This example is meant to show how a Spring REST service can be written in Groovy.
+
+== Packaging and running the example
+
+The example can be packaged using:
+
+[source,sh]
+----
+$ mvn package
+----
+
+It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
+
+The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+
+== Creating a native executable
+
+You can create a native executable using:
+
+[source,sh]
+----
+$ mvn package -Dnative
+----
+
+Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+
+[source,sh]
+----
+$ mvn package -Dnative -Dquarkus.native.container-build=true
+----
+
+You can then execute your native executable with: `./target/quarkus-groovy-examples-spring-web-${project.version}-runner`

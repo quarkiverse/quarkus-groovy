@@ -1,0 +1,18 @@
+= Welcome to the Quarkus Groovy Examples
+
+== Introduction
+
+This directory contains various examples showing how the Quarkus Groovy extension can be used in different contexts.
+
+== Examples
+
+[width="100%",cols="4,6",options="header"]
+|===
+| Example | Description
+
+| link:gradle-resteasy/README.adoc[Gradle Resteasy] | An example which demonstrates how Gradle can be used
+| link:reactive-routes/README.adoc[Reactive Routes] | An example of a reactive route written in Groovy
+| link:resteasy/README.adoc[Resteasy] | An example of a simple Resteasy application written in Groovy
+| link:spring-web/README.adoc[Spring Web] | An example of a Spring REST service written in Groovy
+
+|===
