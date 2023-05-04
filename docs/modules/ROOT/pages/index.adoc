@@ -8,30 +8,349 @@ Quarkus Groovy is a Quarkus extension allowing to write Quarkus applications in 
 
 If you want to use this extension, you need to add the `io.quarkiverse.groovy:quarkus-groovy` extension first to your build file.
 
-For instance, with Maven, add the following dependency to your POM file:
+=== With Maven
+
+Add the following dependency to your `pom.xml` file:
 
 [source,xml,subs=attributes+]
 ----
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
     <artifactId>quarkus-groovy</artifactId>
-    <version>{project-version}</version>
+    <version>${quarkus-groovy.version}</version> <!--1-->
 </dependency>
 ----
+<1> Version of the Quarkus Groovy extension set in the properties of the project
 
+=== With Gradle
 
-For instance, with Gradle, add the following dependency to your build.gradle file:
+Add the following dependency to your `build.gradle` file:
 
 [source,groovy,subs=attributes+]
 ----
-implementation 'io.quarkiverse.groovy:quarkus-groovy:{project-version}'
+implementation "io.quarkiverse.groovy:quarkus-groovy:${quarkus-groovy.version}" // <1>
+----
+<1> Version of the Quarkus Groovy extension set in `gradle.properties`
+
+== Compilation
+
+To compile the main and test sources written in Groovy, the required plugins which are the Groovy and Quarkus plugins need to be configured.
+
+=== With Maven
+
+The Maven plugin https://groovy.github.io/GMavenPlus/[`gmavenplus-plugin`] is used to compile all the Groovy sources of the project.
+
+The required plugins are configured as next:
+
+[source,xml,subs=attributes+]
+----
+<build>
+    <sourceDirectory>src/main/groovy</sourceDirectory> <!--1-->
+    <testSourceDirectory>src/test/groovy</testSourceDirectory> <!--2-->
+    <plugins>
+        <plugin>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-maven-plugin</artifactId>
+            <version>${quarkus.version}</version> <!--3-->
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>build</goal>
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+        <plugin>
+            <groupId>org.codehaus.gmavenplus</groupId>
+            <artifactId>gmavenplus-plugin</artifactId>
+            <version>${groovy-maven-plugin.version}</version> <!--4-->
+            <executions>
+                <execution>
+                    <goals>
+                        <goal>compile</goal> <!--5-->
+                        <goal>compileTests</goal> <!--6-->
+                    </goals>
+                </execution>
+            </executions>
+        </plugin>
+    </plugins>
+</build>
+----
+<1> Indicates the location of the main sources written in Groovy
+<2> Indicates the location of the test sources written in Groovy
+<3> The version of the Quarkus plugin set in the properties of the project
+<4> The version of the GMavenPlus plugin set in the properties of the project
+<5> Indicates the GMavenPlus plugin that main sources have to be compiled
+<6> Indicates the GMavenPlus plugin that test sources have to be compiled
+
+For some specific extensions such as `hibernate-orm-panache` and `hibernate-reactive-panache`, the source code needs to be compiled using with the flag `-parameters` indicating that the parameter names must be added to the class files.
+To be able to do that some additional parameters are needed as you can see below:
+
+[source,xml,subs=attributes+]
+----
+<plugins>
+    <plugin>
+        <groupId>io.quarkus</groupId>
+        <artifactId>quarkus-maven-plugin</artifactId>
+        <version>${quarkus.version}</version>
+        <configuration>
+            <compilerOptions> <!--1-->
+                <compiler>
+                    <name>groovy</name>
+                    <args>
+                        <arg>groovy.parameters=true</arg>
+                    </args>
+                </compiler>
+            </compilerOptions>
+        </configuration>
+        <!-- Rest of the Quarkus plugin's configuration -->
+    </plugin>
+    <plugin>
+        <groupId>org.codehaus.gmavenplus</groupId>
+        <artifactId>gmavenplus-plugin</artifactId>
+        <version>${groovy-maven-plugin.version}</version>
+        <configuration>
+            <parameters>true</parameters> <!--2-->
+        </configuration>
+        <!-- Rest of the GMavenPlus plugin's configuration -->
+    </plugin>
+</plugins>
+----
+<1> Specific Quarkus plugin configuration to indicate the Quarkus Groovy extension to compile the code in dev mode with the flag `-parameters`.
+<2> Indicates the GMavenPlus plugin to compile the code with the flag `-parameters`.
+
+=== With Gradle
+
+The Gradle plugin https://docs.gradle.org/current/userguide/groovy_plugin.html[`Groovy Plugin`] is used to compile all the Groovy sources of the project.
+
+The required plugins are configured as next in the `build.gradle` file:
+
+[source,groovy,subs=attributes+]
+----
+plugins {
+    id 'io.quarkus'
+    id 'groovy'
+}
 ----
 
+The version of the Quarkus plugin can be set in a `pluginManagement` block as next:
+
+[source,groovy,subs=attributes+]
+----
+pluginManagement {
+    plugins {
+      id 'io.quarkus' version "${quarkusPluginVersion}" // <1>
+    }
+}
+----
+<1> Version of the Quarkus plugin set in `gradle.properties`
+
+For some specific extensions such as `hibernate-orm-panache` and `hibernate-reactive-panache`, the source code needs to be compiled using with the flag `-parameters` indicating that the parameter names must be added to the class files.
+To be able to do that some additional parameters are needed as you can see below:
+
+[source,groovy,subs=attributes+]
+----
+quarkusDev {
+    compilerOptions { // <2>
+        compiler("groovy").args(["groovy.parameters=true"])
+    }
+}
+
+tasks.withType(GroovyCompile).configureEach {
+    groovyOptions.parameters = true // <1>
+}
+----
+<1> Specific Quarkus plugin configuration to indicate the Quarkus Groovy extension to compile the code in dev mode with the flag `-parameters`.
+<2> Indicates the Groovy Plugin to compile the code with the flag `-parameters`.
+
+=== Supported compilation options
+
+[cols="1,2",subs=attributes+,options="header"]
+|===
+|Name |Description
+|`groovy.warnings`|The warning level
+|`groovy.parameters`|Indicates whether parameter metadata generation must be enabled
+|`groovy.preview.features`|Whether the bytecode version has preview features enabled
+|`groovy.classpath`|Classpath for use during compilation
+|`groovy.output.verbose`|Whether verbose operation has been requested
+|`groovy.output.debug`|Whether debugging operation has been requested
+|`groovy.errors.tolerance`|The requested error tolerance
+|`groovy.default.scriptExtension`|Extension used to find a groovy file
+|`groovy.script.base`|The name of the base class for scripts. It must be a subclass of Script.
+|`groovy.recompile`|Whether the recompilation is enabled
+|`groovy.recompile.minimumInterval`|The minimum of time after a script can be recompiled
+|`groovy.disabled.global.ast.transformations`|The list of disabled global AST transformation class names
+|===
+
+== Hibernate ORM Panache
+
+=== Purpose
+
+Hibernate ORM is the de facto Jakarta Persistence (formerly known as JPA) implementation and offers you the full breadth of an Object Relational Mapper. It makes complex mappings possible, but it does not make simple and common mappings trivial. Hibernate ORM with Panache focuses on making your entities trivial and fun to write in Quarkus.
+
+=== Installation
+
+If you want to use this extension, you need to add the `io.quarkiverse.groovy:quarkus-groovy-hibernate-orm-panache` extension first to your build file.
+
+NOTE: The extensions `io.quarkiverse.groovy:quarkus-groovy` and `io.quarkus:quarkus-hibernate-orm` are part of the dependencies of this extension.
+
+==== With Maven
+
+Add the following dependency to your `pom.xml` file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.groovy</groupId>
+    <artifactId>quarkus-groovy-hibernate-orm-panache</artifactId>
+    <version>${quarkus-groovy.version}</version> <!--1-->
+</dependency>
+----
+<1> Version of the Quarkus Groovy extension set in the properties of the project
+
+==== With Gradle
+
+Add the following dependency to your `build.gradle` file:
+
+[source,groovy,subs=attributes+]
+----
+implementation "io.quarkiverse.groovy:quarkus-groovy-hibernate-orm-panache:${quarkus-groovy.version}" // <1>
+----
+<1> Version of the Quarkus Groovy extension set in `gradle.properties`
+
+=== Usage
+
+The extension is mostly the same as the https://quarkus.io/guides/hibernate-orm-panache[original extension from the Quarkus project] the main differences are:
+
+* The package where the base classes of the entities and repositories are located.
+Indeed, instead of being `io.quarkus.hibernate.orm.panache`, it is `io.quarkiverse.groovy.hibernate.orm.panache`.
+* All static methods in `PanacheEntityBase` (such as `find`, `findAll`, `list`, `listAll`, `count`...) that depend on bytecode injection have been removed due to a side effect of the static compilation that by-pass the generated methods. As workaround, the methods in the corresponding repository must be used.
+* The methods `delete` to delete entities by query has been renamed to `deleteByQuery` to prevent method call clashing with `delete(Entity)` in dynamic compilation mode.
+
+== Hibernate Reactive Panache
+
+=== Purpose
+
+Hibernate Reactive is the only reactive Jakarta Persistence (formerly known as JPA) implementation and offers you the full breadth of an Object Relational Mapper allowing you to access your database over reactive drivers. It makes complex mappings possible, but it does not make simple and common mappings trivial. Hibernate Reactive with Panache focuses on making your entities trivial and fun to write in Quarkus.
+
+=== Installation
+
+If you want to use this extension, you need to add the `io.quarkiverse.groovy:quarkus-groovy-hibernate-reactive-panache` extension first to your build file.
+
+NOTE: The extensions `io.quarkiverse.groovy:quarkus-groovy` and `io.quarkus:quarkus-hibernate-reactive` are part of the dependencies of this extension.
+
+==== With Maven
+
+Add the following dependency to your `pom.xml` file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.groovy</groupId>
+    <artifactId>quarkus-groovy-hibernate-reactive-panache</artifactId>
+    <version>${quarkus-groovy.version}</version> <!--1-->
+</dependency>
+----
+<1> Version of the Quarkus Groovy extension set in the properties of the project
+
+==== With Gradle
+
+Add the following dependency to your `build.gradle` file:
+
+[source,groovy,subs=attributes+]
+----
+implementation "io.quarkiverse.groovy:quarkus-groovy-hibernate-reactive-panache:${quarkus-groovy.version}" // <1>
+----
+<1> Version of the Quarkus Groovy extension set in `gradle.properties`
+
+=== Usage
+
+The extension is mostly the same as the https://quarkus.io/guides/hibernate-reactive-panache[original extension from the Quarkus project] the main differences are:
+
+* The package where the base classes of the entities and repositories are located.
+Indeed, instead of being `io.quarkus.hibernate.reactive.panache`, it is `io.quarkiverse.groovy.hibernate.reactive.panache`.
+* All static methods in `PanacheEntityBase` (such as `find`, `findAll`, `list`, `listAll`, `count`...) that depend on bytecode injection have been removed due to a side effect of the static compilation that by-pass the generated methods. As workaround, the methods in the corresponding repository must be used.
+* The methods `delete` to delete entities by query has been renamed to `deleteByQuery` to prevent method call clashing with `delete(Entity)` in dynamic compilation mode.
+
+== JAXB
+
+=== Purpose
+
+By default, https://stackoverflow.com/questions/1161147/how-do-i-get-groovy-and-jaxb-to-play-nice-together[some issues] can be met when using JAXB to map Groovy classes, due to the addition of the method `getMetaClass` to the generated bytecode.
+This extension allows you to automatically make `getMetaClass` as transient to avoid natively the known issues.
+
+=== Installation
+
+If you want to use this extension, you need to add the `io.quarkiverse.groovy:quarkus-groovy-jaxb` extension first to your build file.
+
+NOTE: The extension `io.quarkiverse.groovy:quarkus-groovy` and the artifact `io.quarkus:quarkus-jaxb` are part of the dependencies of this extension.
+
+==== With Maven
+
+Add the following dependency to your `pom.xml` file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.groovy</groupId>
+    <artifactId>quarkus-groovy-jaxb</artifactId>
+    <version>${quarkus-groovy.version}</version> <!--1-->
+</dependency>
+----
+<1> Version of the Quarkus Groovy extension set in the properties of the project
+
+==== With Gradle
+
+Add the following dependency to your `build.gradle` file:
+
+[source,groovy,subs=attributes+]
+----
+implementation "io.quarkiverse.groovy:quarkus-groovy-jaxb:${quarkus-groovy.version}" // <1>
+----
+<1> Version of the Quarkus Groovy extension set in `gradle.properties`
+
+== JUnit 5
+
+=== Purpose
+
+This extension is only meant for integration tests where the server side code is written using JUnit 5 in native mode.
+This extension allows you to automatically configure JUnit 5 to be used in native mode.
+
+=== Installation
+
+If you want to use this extension, you need to add the `io.quarkiverse.groovy:quarkus-groovy-junit5` extension first to your build file.
+
+NOTE: The extension `io.quarkiverse.groovy:quarkus-groovy` and the artifact `io.quarkus:quarkus-junit5` are part of the dependencies of this extension.
+
+==== With Maven
+
+Add the following dependency to your `pom.xml` file:
+
+[source,xml,subs=attributes+]
+----
+<dependency>
+    <groupId>io.quarkiverse.groovy</groupId>
+    <artifactId>quarkus-groovy-junit5</artifactId>
+    <version>${quarkus-groovy.version}</version> <!--1-->
+</dependency>
+----
+<1> Version of the Quarkus Groovy extension set in the properties of the project
+
+==== With Gradle
+
+Add the following dependency to your `build.gradle` file:
+
+[source,groovy,subs=attributes+]
+----
+implementation "io.quarkiverse.groovy:quarkus-groovy-junit5:${quarkus-groovy.version}" // <1>
+----
+<1> Version of the Quarkus Groovy extension set in `gradle.properties`
 
 == Compile Static
 
 The Quarkus project was designed with performance in mind, using Groovy's CompileStatic annotation can improve the performance of the project. This annotation enforces static compilation of the code, allowing verification of types and method resolution during compilation rather than at runtime as is common in Groovy.
 
+The static compilation is also very handy in native mode to avoid complex reflection configuration that is required when using the dynamic compilation.
 
 Code example
 
