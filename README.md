@@ -19,7 +19,7 @@ With Maven, add the following dependency to your `pom.xml` to get started:
 Or with Gradle, add the following dependency to your `build.gradle`:
 
 ```groovy
-implementation 'io.quarkiverse.groovy:quarkus-groovy:${project.version}'
+implementation "io.quarkiverse.groovy:quarkus-groovy:${project.version}"
 ```
 
 For more information and quickstart, you can check the complete [documentation](https://quarkiverse.github.io/quarkiverse-docs/quarkus-groovy/dev/index.html).
