@@ -15,6 +15,7 @@
   <modules>
     <module>extensions</module>
     <module>integration-tests</module>
+    <module>examples</module>
     <module>docs</module>
   </modules>
   <properties>
@@ -177,6 +178,24 @@
     </plugins>
   </build>
   <profiles>
+    <profile>
+      <id>quick-build</id>
+      <activation>
+        <property>
+          <name>quickly</name>
+        </property>
+      </activation>
+      <properties>
+        <skipTests>true</skipTests>
+        <skipITs>true</skipITs>
+        <skipDocs>true</skipDocs>
+        <enforcer.skip>true</enforcer.skip>
+        <skip.gradle.tests>true</skip.gradle.tests>
+      </properties>
+      <build>
+        <defaultGoal>clean install</defaultGoal>
+      </build>
+    </profile>
     <profile>
       <id>it</id>
       <activation>

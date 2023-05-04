@@ -1,0 +1,36 @@
+= Gradle Resteasy Example
+
+== Introduction
+
+This example is meant to show how the Quarkus Groovy extension can be used with Gradle as build tool.
+
+== Packaging and running the example
+
+The example can be packaged using:
+
+[source,sh]
+----
+$ ./gradlew build
+----
+
+It produces the `quarkus-run.jar` file in the `build/quarkus-app/` directory.
+
+The application is now runnable using `java -jar build/quarkus-app/quarkus-run.jar`.
+
+== Creating a native executable
+
+You can create a native executable using:
+
+[source,sh]
+----
+$ ./gradlew build -Dquarkus.package.type=native
+----
+
+Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
+
+[source,sh]
+----
+$ ./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
+----
+
+You can then execute your native executable with: `./build/gradle-resteasy-${project.version}-runner`
