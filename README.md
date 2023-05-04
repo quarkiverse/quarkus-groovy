@@ -4,18 +4,58 @@
 [![License](https://img.shields.io/github/license/quarkiverse/quarkus-groovy)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Central](https://img.shields.io/maven-central/v/io.quarkiverse.groovy/quarkus-groovy?color=green)](https://search.maven.org/search?q=g:io.quarkiverse.groovy%20AND%20a:quarkus-groovy)
 
-Quarkus Groovy is a Quarkus extension allowing to write Quarkus applications in Groovy. 
+Quarkus Groovy is a Quarkus extension allowing to write Quarkus 3.0 applications in Groovy 4.0. 
 
-Add the following dependency to your `pom.xml` to get started:
+With Maven, add the following dependency to your `pom.xml` to get started:
 
 ```xml
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
     <artifactId>quarkus-groovy</artifactId>
+    <version>${project.version}</version>
 </dependency>
 ```
 
+Or with Gradle, add the following dependency to your `build.gradle`:
+
+```groovy
+implementation 'io.quarkiverse.groovy:quarkus-groovy:${project.version}'
+```
+
 For more information and quickstart, you can check the complete [documentation](https://quarkiverse.github.io/quarkiverse-docs/quarkus-groovy/dev/index.html).
+
+## Build
+
+To build the extension, the requirements are the following:
+
+* Java 11+
+* Maven 3.8+
+* Docker 23+
+* GraalVM 22.3.1+ (optional)
+
+To quickly build the extension with all the tests and validators disabled:
+
+```sh
+$ mvn -Dquickly
+```
+
+To build the extension with all the tests for the JVM mode and the validators enabled:
+
+```sh
+$ mvn clean install
+```
+
+To build the extension with everything enabled when GraalVM is installed on the local machine:
+
+```sh
+$ mvn clean install -Dnative
+```
+
+To build the extension with everything enabled when GraalVM is not installed on the local machine:
+
+```sh
+$ mvn clean install -Dnative -Dquarkus.native.container-build
+```
 
 ## Contributors ✨
 
