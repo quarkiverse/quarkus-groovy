@@ -67,7 +67,7 @@
                         <compiler>
                             <name>groovy</name>
                             <args>
-                                <arg>groovy.output.debug=true</arg>
+                                <arg>groovy.parameters=true</arg>
                             </args>
                         </compiler>
                     </compilerOptions>
@@ -90,7 +90,7 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
-                            <debug>true</debug>
+                            <parameters>true</parameters>
                         </configuration>
                     </execution>
                 </executions>

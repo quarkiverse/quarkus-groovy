@@ -1,3 +1,5 @@
+package org.acme
+
 /*
  * Licensed to the Apache Software Foundation (ASF) under one or more
  * contributor license agreements.  See the NOTICE file distributed with
@@ -14,27 +16,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.acme
 
+class Hello {
 
-import jakarta.ws.rs.GET
-import jakarta.ws.rs.Path
-import jakarta.ws.rs.Produces
-import jakarta.ws.rs.core.MediaType
+    String name
 
-@Path("/app/hello")
-class HelloResource {
-
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    def hello4() {
-        'hello'
-    }
-
-    @Path("/name")
-    @GET
-    @Produces(MediaType.TEXT_PLAIN)
-    def name() {
-        Hello.class.getConstructors()[0].getParameters()[0].isNamePresent() ? Hello.class.getConstructors()[0].getParameters()[0].getName() : 'unknown'
+    Hello(String someName) {
+        this.name = someName
     }
 }

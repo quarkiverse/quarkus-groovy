@@ -85,6 +85,17 @@ class GroovyDevModeIT extends RunAndCheckMojoTestBase {
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
                 .atMost(1, TimeUnit.MINUTES).until(() -> DevModeTestUtils.getHttpResponse("/app/hello").contains(uuid));
+        await()
+                .pollDelay(1, TimeUnit.SECONDS)
+                .atMost(1, TimeUnit.MINUTES)
+                .until(() -> DevModeTestUtils.getHttpResponse("/app/hello/name").contains("someName"));
+
+        File helloService = new File(testDir, "src/main/groovy/org/acme/Hello.groovy");
+        filter(helloService, Map.of("someName", "otherName"));
+        await()
+                .pollDelay(1, TimeUnit.SECONDS)
+                .atMost(1, TimeUnit.MINUTES)
+                .until(() -> DevModeTestUtils.getHttpResponse("/app/hello/name").contains("otherName"));
     }
 
     @Test
