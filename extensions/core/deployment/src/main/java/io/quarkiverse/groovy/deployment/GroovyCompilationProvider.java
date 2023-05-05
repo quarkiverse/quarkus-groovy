@@ -43,6 +43,9 @@ import groovy.lang.GroovyClassLoader;
 import io.quarkus.deployment.dev.CompilationProvider;
 import io.quarkus.paths.PathCollection;
 
+/**
+ * {@code GroovyCompilationProvider} compiles sources written in Groovy that are modified in dev mode.
+ */
 public class GroovyCompilationProvider implements CompilationProvider {
 
     private static final Logger log = Logger.getLogger(GroovyCompilationProvider.class);

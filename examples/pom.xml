@@ -16,19 +16,4 @@
     <module>resteasy</module>
     <module>spring-web</module>
   </modules>
-  <build>
-    <plugins>
-      <!--
-      This is not deployed into a Maven repository. It is merely installed into the local Maven repository
-      during a local build.
-      -->
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-deploy-plugin</artifactId>
-        <configuration>
-          <skip>true</skip>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
 </project>

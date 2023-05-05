@@ -14,8 +14,6 @@
   <name>Quarkus Groovy - Parent</name>
   <modules>
     <module>extensions</module>
-    <module>integration-tests</module>
-    <module>examples</module>
     <module>docs</module>
   </modules>
   <properties>
@@ -197,7 +195,7 @@
       </build>
     </profile>
     <profile>
-      <id>it</id>
+      <id>it-examples</id>
       <activation>
         <property>
           <name>performRelease</name>
@@ -206,6 +204,7 @@
       </activation>
       <modules>
         <module>integration-tests</module>
+        <module>examples</module>
       </modules>
     </profile>
   </profiles>
