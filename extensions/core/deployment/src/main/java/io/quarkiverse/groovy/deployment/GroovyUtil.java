@@ -25,10 +25,22 @@ import org.jboss.jandex.Type;
 import groovy.lang.GroovyObject;
 import groovy.lang.MetaClass;
 
+/**
+ * {@code GroovyUtil} is a utility class that provides methods that are specific to the Groovy language.
+ */
 public final class GroovyUtil {
 
+    /**
+     * The {@code DotName} corresponding to the {@link GroovyObject}.
+     */
     public static final DotName DOTNAME_GROOVY_OBJECT = DotName.createSimple(GroovyObject.class.getName());
+    /**
+     * The name of the specific method allowing to get the meta class.
+     */
     public static final String METHOD_GET_META_CLASS_NAME = "getMetaClass";
+    /**
+     * The descriptor of the method {@code getMetaClass()} in asm terminology.
+     */
     public static final String METHOD_GET_META_CLASS_DESCRIPTOR = String.format("()L%s;",
             MetaClass.class.getName().replace('.', '/'));
     private static final List<String> GROOVY_PACKAGE_NAMES = List.of("org.codehaus.groovy.", "org.apache.groovy.", "groovy");
@@ -37,6 +49,7 @@ public final class GroovyUtil {
     }
 
     /**
+     * @param classInfo the class to test.
      * @return {@code true} if the given class is a Groovy object, {@code false} otherwise.
      */
     public static boolean isGroovyObject(ClassInfo classInfo) {
@@ -49,6 +62,8 @@ public final class GroovyUtil {
     }
 
     /**
+     * @param name the name of the method to test.
+     * @param descriptor the descriptor of the method to test in asm terminology.
      * @return {@code true} if the given method name and description match with the {@link GroovyObject#getMetaClass()},
      *         {@code false} otherwise.
      */
@@ -57,6 +72,7 @@ public final class GroovyUtil {
     }
 
     /**
+     * @param name the full qualified name of the class to test.
      * @return {@code true} if the given class is part of the groovy library, {@code false} otherwise.
      */
     public static boolean isGroovyClass(String name) {
