@@ -1,0 +1,26 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "commitConvention": "angular",
+  "contributors": [
+    {
+      "login": "essobedo",
+      "name": "Nicolas Filotto",
+      "avatar_url": "https://avatars.githubusercontent.com/u/1618116?v=4",
+      "profile": "https://stackoverflow.com/users/1997376/nicolas-filotto",
+      "contributions": [
+        "code",
+        "maintenance"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "skipCi": true,
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "projectName": "quarkus-groovy",
+  "projectOwner": "quarkiverse"
+}
