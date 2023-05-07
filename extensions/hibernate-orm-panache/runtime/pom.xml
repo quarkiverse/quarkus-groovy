@@ -8,7 +8,7 @@
     </parent>
     <artifactId>quarkus-groovy-hibernate-orm-panache</artifactId>
     <name>Quarkus Groovy - Hibernate ORM with Panache - Runtime</name>
-    <description>Define your persistent model in Hibernate ORM with Panache</description>
+    <description>Define your persistent model in Hibernate ORM with Panache in Groovy</description>
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
