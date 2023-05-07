@@ -8,7 +8,7 @@
     </parent>
     <artifactId>quarkus-groovy-hibernate-reactive-panache</artifactId>
     <name>Quarkus Groovy - Hibernate Reactive with Panache - Runtime</name>
-    <description>Simplify your persistence code for Hibernate Reactive via the active record or the repository pattern</description>
+    <description>Simplify your persistence code for Hibernate Reactive via the active record or the repository pattern in Groovy</description>
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
