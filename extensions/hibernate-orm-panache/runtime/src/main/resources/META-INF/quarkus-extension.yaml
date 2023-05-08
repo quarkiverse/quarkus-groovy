@@ -10,7 +10,7 @@ metadata:
   - "groovy"
   categories:
   - "data"
-  status: "stable"
+  status: "preview"
   config:
   - "quarkus.datasource."
   - "quarkus.hibernate-orm."
