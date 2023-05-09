@@ -17,7 +17,7 @@ Add the following dependency to your `pom.xml` file:
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
     <artifactId>quarkus-groovy</artifactId>
-    <version>${quarkus-groovy.version}</version> <!--1-->
+    <version>${quarkusGroovyVersion}</version> <!--1-->
 </dependency>
 ----
 <1> Version of the Quarkus Groovy extension set in the properties of the project
@@ -28,7 +28,7 @@ Add the following dependency to your `build.gradle` file:
 
 [source,groovy,subs=attributes+]
 ----
-implementation "io.quarkiverse.groovy:quarkus-groovy:${quarkus-groovy.version}" // <1>
+implementation "io.quarkiverse.groovy:quarkus-groovy:${quarkusGroovyVersion}" // <1>
 ----
 <1> Version of the Quarkus Groovy extension set in `gradle.properties`
 
@@ -203,7 +203,7 @@ Add the following dependency to your `pom.xml` file:
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
     <artifactId>quarkus-groovy-hibernate-orm-panache</artifactId>
-    <version>${quarkus-groovy.version}</version> <!--1-->
+    <version>${quarkusGroovyVersion}</version> <!--1-->
 </dependency>
 ----
 <1> Version of the Quarkus Groovy extension set in the properties of the project
@@ -214,7 +214,7 @@ Add the following dependency to your `build.gradle` file:
 
 [source,groovy,subs=attributes+]
 ----
-implementation "io.quarkiverse.groovy:quarkus-groovy-hibernate-orm-panache:${quarkus-groovy.version}" // <1>
+implementation "io.quarkiverse.groovy:quarkus-groovy-hibernate-orm-panache:${quarkusGroovyVersion}" // <1>
 ----
 <1> Version of the Quarkus Groovy extension set in `gradle.properties`
 
@@ -248,7 +248,7 @@ Add the following dependency to your `pom.xml` file:
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
     <artifactId>quarkus-groovy-hibernate-reactive-panache</artifactId>
-    <version>${quarkus-groovy.version}</version> <!--1-->
+    <version>${quarkusGroovyVersion}</version> <!--1-->
 </dependency>
 ----
 <1> Version of the Quarkus Groovy extension set in the properties of the project
@@ -259,7 +259,7 @@ Add the following dependency to your `build.gradle` file:
 
 [source,groovy,subs=attributes+]
 ----
-implementation "io.quarkiverse.groovy:quarkus-groovy-hibernate-reactive-panache:${quarkus-groovy.version}" // <1>
+implementation "io.quarkiverse.groovy:quarkus-groovy-hibernate-reactive-panache:${quarkusGroovyVersion}" // <1>
 ----
 <1> Version of the Quarkus Groovy extension set in `gradle.properties`
 
@@ -294,7 +294,7 @@ Add the following dependency to your `pom.xml` file:
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
     <artifactId>quarkus-groovy-jaxb</artifactId>
-    <version>${quarkus-groovy.version}</version> <!--1-->
+    <version>${quarkusGroovyVersion}</version> <!--1-->
 </dependency>
 ----
 <1> Version of the Quarkus Groovy extension set in the properties of the project
@@ -305,7 +305,7 @@ Add the following dependency to your `build.gradle` file:
 
 [source,groovy,subs=attributes+]
 ----
-implementation "io.quarkiverse.groovy:quarkus-groovy-jaxb:${quarkus-groovy.version}" // <1>
+implementation "io.quarkiverse.groovy:quarkus-groovy-jaxb:${quarkusGroovyVersion}" // <1>
 ----
 <1> Version of the Quarkus Groovy extension set in `gradle.properties`
 
@@ -331,7 +331,7 @@ Add the following dependency to your `pom.xml` file:
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
     <artifactId>quarkus-groovy-junit5</artifactId>
-    <version>${quarkus-groovy.version}</version> <!--1-->
+    <version>${quarkusGroovyVersion}</version> <!--1-->
 </dependency>
 ----
 <1> Version of the Quarkus Groovy extension set in the properties of the project
@@ -342,7 +342,7 @@ Add the following dependency to your `build.gradle` file:
 
 [source,groovy,subs=attributes+]
 ----
-implementation "io.quarkiverse.groovy:quarkus-groovy-junit5:${quarkus-groovy.version}" // <1>
+implementation "io.quarkiverse.groovy:quarkus-groovy-junit5:${quarkusGroovyVersion}" // <1>
 ----
 <1> Version of the Quarkus Groovy extension set in `gradle.properties`
 
