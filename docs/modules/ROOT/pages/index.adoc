@@ -12,7 +12,7 @@ If you want to use this extension, you need to add the `io.quarkiverse.groovy:qu
 
 Add the following dependency to your `pom.xml` file:
 
-[source,xml,subs=attributes+]
+[source,xml]
 ----
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
@@ -26,7 +26,7 @@ Add the following dependency to your `pom.xml` file:
 
 Add the following dependency to your `build.gradle` file:
 
-[source,groovy,subs=attributes+]
+[source,groovy]
 ----
 implementation "io.quarkiverse.groovy:quarkus-groovy:${quarkusGroovyVersion}" // <1>
 ----
@@ -135,11 +135,11 @@ plugins {
 
 The version of the Quarkus plugin can be set in a `pluginManagement` block as next:
 
-[source,groovy,subs=attributes+]
+[source,groovy]
 ----
 pluginManagement {
     plugins {
-      id 'io.quarkus' version "${quarkusPluginVersion}" // <1>
+        id 'io.quarkus' version "${quarkusPluginVersion}" // <1>
     }
 }
 ----
@@ -198,7 +198,7 @@ NOTE: The extensions `io.quarkiverse.groovy:quarkus-groovy` and `io.quarkus:quar
 
 Add the following dependency to your `pom.xml` file:
 
-[source,xml,subs=attributes+]
+[source,xml]
 ----
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
@@ -212,7 +212,7 @@ Add the following dependency to your `pom.xml` file:
 
 Add the following dependency to your `build.gradle` file:
 
-[source,groovy,subs=attributes+]
+[source,groovy]
 ----
 implementation "io.quarkiverse.groovy:quarkus-groovy-hibernate-orm-panache:${quarkusGroovyVersion}" // <1>
 ----
@@ -243,7 +243,7 @@ NOTE: The extensions `io.quarkiverse.groovy:quarkus-groovy` and `io.quarkus:quar
 
 Add the following dependency to your `pom.xml` file:
 
-[source,xml,subs=attributes+]
+[source,xml]
 ----
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
@@ -257,7 +257,7 @@ Add the following dependency to your `pom.xml` file:
 
 Add the following dependency to your `build.gradle` file:
 
-[source,groovy,subs=attributes+]
+[source,groovy]
 ----
 implementation "io.quarkiverse.groovy:quarkus-groovy-hibernate-reactive-panache:${quarkusGroovyVersion}" // <1>
 ----
@@ -289,7 +289,7 @@ NOTE: The extension `io.quarkiverse.groovy:quarkus-groovy` and the artifact `io.
 
 Add the following dependency to your `pom.xml` file:
 
-[source,xml,subs=attributes+]
+[source,xml]
 ----
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
@@ -303,7 +303,7 @@ Add the following dependency to your `pom.xml` file:
 
 Add the following dependency to your `build.gradle` file:
 
-[source,groovy,subs=attributes+]
+[source,groovy]
 ----
 implementation "io.quarkiverse.groovy:quarkus-groovy-jaxb:${quarkusGroovyVersion}" // <1>
 ----
@@ -326,7 +326,7 @@ NOTE: The extension `io.quarkiverse.groovy:quarkus-groovy` and the artifact `io.
 
 Add the following dependency to your `pom.xml` file:
 
-[source,xml,subs=attributes+]
+[source,xml]
 ----
 <dependency>
     <groupId>io.quarkiverse.groovy</groupId>
@@ -340,7 +340,7 @@ Add the following dependency to your `pom.xml` file:
 
 Add the following dependency to your `build.gradle` file:
 
-[source,groovy,subs=attributes+]
+[source,groovy]
 ----
 implementation "io.quarkiverse.groovy:quarkus-groovy-junit5:${quarkusGroovyVersion}" // <1>
 ----
