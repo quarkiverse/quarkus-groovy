@@ -34,8 +34,8 @@ public class PanacheQueryImpl<Entity> implements PanacheQuery<Entity> {
 
     private final CommonPanacheQueryImpl<Entity> delegate;
 
-    PanacheQueryImpl(EntityManager em, String query, String orderBy, Object paramsArrayOrMap) {
-        this.delegate = new CommonPanacheQueryImpl<>(em, query, orderBy, paramsArrayOrMap);
+    PanacheQueryImpl(EntityManager em, String query, String originalQuery, String orderBy, Object paramsArrayOrMap) {
+        this.delegate = new CommonPanacheQueryImpl<>(em, query, originalQuery, orderBy, paramsArrayOrMap);
     }
 
     protected PanacheQueryImpl(CommonPanacheQueryImpl<Entity> delegate) {

@@ -1264,7 +1264,9 @@ class TestEndpoint {
                     catRepository.find("select new FakeClass('fake_cat', 'fake_owner', 12.5 from Cat c)")
                             .project(CatProjectionBean.class).firstResult()
                 })
-        Assertions.assertTrue(exception.getMessage().startsWith("Unable to perform a projection on a 'select new' query"))
+        Assertions.assertTrue(
+            exception.getMessage().startsWith("Unable to perform a projection on a 'select [distinct]? new' query"),
+            String.format("The error message '%s' doesn't have the expected prefix", exception.getMessage()))
 
         CatProjectionBean constantProjection = catRepository.find("select 'fake_cat', 'fake_owner', 12.5D from Cat c")
                 .project(CatProjectionBean.class).firstResult()
