@@ -30,11 +30,16 @@ import org.jboss.jandex.DotName;
 import org.jboss.jandex.IndexView;
 
 import groovy.lang.Closure;
+import io.quarkiverse.groovy.runtime.GroovyRecorder;
 import io.quarkus.bootstrap.classloading.QuarkusClassLoader;
+import io.quarkus.deployment.IsTest;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
+import io.quarkus.deployment.annotations.ExecutionTime;
+import io.quarkus.deployment.annotations.Record;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
+import io.quarkus.deployment.builditem.ServiceStartBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.pkg.steps.NativeBuild;
@@ -103,5 +108,12 @@ class GroovyProcessor {
         proxies.add(new NativeImageProxyDefinitionBuildItem(BiConsumer.class.getName()));
         proxies.add(new NativeImageProxyDefinitionBuildItem(BiPredicate.class.getName()));
         return proxies;
+    }
+
+    @BuildStep(onlyIf = IsTest.class)
+    @Record(ExecutionTime.RUNTIME_INIT)
+    ServiceStartBuildItem initExtensionModules(GroovyRecorder recorder) {
+        recorder.initExtensionModules();
+        return new ServiceStartBuildItem("Groovy Extension Module Loader");
     }
 }
