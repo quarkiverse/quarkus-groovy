@@ -27,15 +27,16 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import groovy.lang.GroovySystem;
-import groovy.lang.MetaMethod;
-import io.quarkus.runtime.annotations.Recorder;
 import org.codehaus.groovy.reflection.CachedClass;
 import org.codehaus.groovy.reflection.ClassInfo;
 import org.codehaus.groovy.runtime.m12n.ExtensionModuleScanner;
 import org.codehaus.groovy.runtime.metaclass.MetaClassRegistryImpl;
 import org.codehaus.groovy.util.URLStreams;
 import org.jboss.logging.Logger;
+
+import groovy.lang.GroovySystem;
+import groovy.lang.MetaMethod;
+import io.quarkus.runtime.annotations.Recorder;
 
 @Recorder
 public class GroovyRecorder {
