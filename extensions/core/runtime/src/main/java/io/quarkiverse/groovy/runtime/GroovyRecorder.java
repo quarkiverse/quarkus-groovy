@@ -16,7 +16,6 @@
  */
 package io.quarkiverse.groovy.runtime;
 
-import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Enumeration;
@@ -57,7 +56,7 @@ public class GroovyRecorder {
                 URL url = resources.nextElement();
                 scanExtensionModuleFromMetaInf(url);
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.warnf("An error occurred while scanning the extension modules '%s': %s", moduleMetaInfFile, e.getMessage());
         }
     }
@@ -67,7 +66,7 @@ public class GroovyRecorder {
             Properties properties = new Properties();
             properties.load(inStream);
             registerExtensionModuleFromProperties(properties);
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.warnf("An error occurred while registering the extension module '%s': %s", metadata, e.getMessage());
         }
     }
