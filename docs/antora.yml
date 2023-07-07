@@ -1,5 +1,5 @@
 name: quarkus-groovy
-title: Quarkus Groovy
+title: Groovy
 version: dev
 nav:
   - modules/ROOT/nav.adoc
