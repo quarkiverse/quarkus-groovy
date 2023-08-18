@@ -32,7 +32,7 @@
     <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
     <groovy.version>4.0.13</groovy.version>
     <groovy-maven-plugin.version>3.0.0</groovy-maven-plugin.version>
-    <docker-maven-plugin.version>0.43.2</docker-maven-plugin.version>
+    <docker-maven-plugin.version>0.43.4</docker-maven-plugin.version>
     <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
     <assertj.version>3.24.2</assertj.version>
     <script.extension>sh</script.extension>
