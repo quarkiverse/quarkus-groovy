@@ -43,7 +43,7 @@ class FlowResource {
     @Path("str")
     @Produces(MediaType.SERVER_SENT_EVENTS)
     Multi<String> sseStrings() {
-        Multi.createFrom().emitter(emitter -> {
+        Multi.createFrom().<String>emitter(emitter -> {
             try {
                 emitter.emit(uppercaseService.convert("Hello"))
                 emitter.emit(uppercaseService.convert("From"))
