@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.quarkiverse.groovy</groupId>
         <artifactId>quarkus-groovy-examples-parent</artifactId>
-        <version>999-SNAPSHOT</version>
+        <version>3.3.0</version>
     </parent>
     <artifactId>quarkus-groovy-examples-resteasy</artifactId>
     <name>Quarkus Groovy - Examples - Resteasy with Maven as build tool</name>
