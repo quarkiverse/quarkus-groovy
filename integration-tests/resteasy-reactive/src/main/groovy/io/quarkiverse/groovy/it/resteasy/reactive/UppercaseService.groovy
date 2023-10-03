@@ -23,7 +23,7 @@ import jakarta.enterprise.context.RequestScoped
 @RequestScoped
 class UppercaseService {
 
-    String convert(String input) {
+    def convert(String input) {
         input.toUpperCase(Locale.ROOT)
     }
 }
