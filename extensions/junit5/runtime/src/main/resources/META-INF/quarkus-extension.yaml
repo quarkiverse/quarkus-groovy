@@ -4,7 +4,7 @@ metadata:
   keywords:
   - "groovy"
   - "junit5"
-  - "test"
+  - "testing"
   categories:
   - "test"
   status: "preview"
