@@ -6,5 +6,5 @@ metadata:
   - "junit5"
   - "testing"
   categories:
-  - "test"
+  - "testing"
   status: "preview"
