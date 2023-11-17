@@ -33,7 +33,7 @@
     <groovy.version>4.0.15</groovy.version>
     <groovy-maven-plugin.version>3.0.2</groovy-maven-plugin.version>
     <docker-maven-plugin.version>0.43.4</docker-maven-plugin.version>
-    <exec-maven-plugin.version>3.1.0</exec-maven-plugin.version>
+    <exec-maven-plugin.version>3.1.1</exec-maven-plugin.version>
     <assertj.version>3.24.2</assertj.version>
     <script.extension>sh</script.extension>
     <docker-prune.location>${maven.multiModuleProjectDirectory}/.github/docker-prune.${script.extension}</docker-prune.location>
