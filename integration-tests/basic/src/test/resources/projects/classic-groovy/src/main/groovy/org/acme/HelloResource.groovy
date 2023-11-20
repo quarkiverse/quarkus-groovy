@@ -16,6 +16,7 @@
  */
 package org.acme
 
+import groovy.transform.CompileStatic
 import org.eclipse.microprofile.config.inject.ConfigProperty
 
 import jakarta.inject.Inject
@@ -24,6 +25,7 @@ import jakarta.ws.rs.Path
 import jakarta.ws.rs.Produces
 import jakarta.ws.rs.core.MediaType
 
+@CompileStatic
 @Path("/hello")
 class HelloResource {
 
