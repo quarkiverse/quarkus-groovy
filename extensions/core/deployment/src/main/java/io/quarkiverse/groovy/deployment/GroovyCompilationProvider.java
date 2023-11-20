@@ -40,6 +40,7 @@ import org.codehaus.groovy.tools.GroovyClass;
 import org.jboss.logging.Logger;
 
 import groovy.lang.GroovyClassLoader;
+import groovy.lang.GroovySystem;
 import io.quarkus.deployment.dev.CompilationProvider;
 import io.quarkus.paths.PathCollection;
 
@@ -68,9 +69,10 @@ public class GroovyCompilationProvider implements CompilationProvider {
         cc.setSourceEncoding(context.getSourceEncoding().name());
         cc.setTargetBytecode(context.getTargetJvmVersion());
         cc.setTargetDirectory(context.getOutputDirectory().getAbsolutePath());
-        try (URLClassLoader parent = createNewClassLoader(Stream.of(context.getClasspath(), context.getReloadableClasspath())
-                .flatMap(Collection::stream)
-                .collect(Collectors.toList()));
+        try (URLClassLoader parent = createNewClassLoader(
+                Stream.of(Set.of(cc.getTargetDirectory()), context.getClasspath(), context.getReloadableClasspath())
+                        .flatMap(Collection::stream)
+                        .collect(Collectors.toList()));
                 GroovyClassLoader groovyClassLoader = new GroovyClassLoader(parent, cc);
                 GroovyClassLoader transformLoader = new GroovyClassLoader(parent)) {
             CompilationUnit unit = new CompilationUnit(cc, null, groovyClassLoader, transformLoader);
@@ -125,7 +127,7 @@ public class GroovyCompilationProvider implements CompilationProvider {
         for (File file : classpath) {
             urlsList.add(file.toURI().toURL());
         }
-        return new URLClassLoader(urlsList.toArray(new URL[0]), ClassLoader.getSystemClassLoader());
+        return new URLClassLoader(urlsList.toArray(new URL[0]), GroovySystem.class.getClassLoader());
     }
 
     @Override
