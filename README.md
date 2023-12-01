@@ -31,7 +31,7 @@ For more information and quickstart, you can check the complete [documentation](
 
 To build the extension, the requirements are the following:
 
-* Java 11+
+* Java 17+
 * Maven 3.8+
 * Docker 23+
 * GraalVM 23+ (optional)
