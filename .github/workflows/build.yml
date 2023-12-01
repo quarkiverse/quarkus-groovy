@@ -37,7 +37,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest]
-        jdk: [11, 17, 21]
+        jdk: [17, 21]
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v3
@@ -47,9 +47,5 @@ jobs:
           distribution: temurin
           java-version: ${{ matrix.jdk }}
           cache: 'maven'
-      - name: Build for JDK 11
-        run: mvn clean install formatter:validate -Dnative -Dquarkus.native.container-build=true -Dquarkus.native.builder-image=quay.io/quarkus/ubi-quarkus-mandrel-builder-image:23.0-java17 -B
-        if: ${{ matrix.jdk == '11' }}
-      - name: Build for non JDK 11
+      - name: Build
         run: mvn clean install formatter:validate -Dnative -Dquarkus.native.container-build=true -Dquarkus.native.builder-image=quay.io/quarkus/ubi-quarkus-mandrel-builder-image:jdk-${{ matrix.jdk }} -B
-        if: ${{ matrix.jdk != '11' }}
