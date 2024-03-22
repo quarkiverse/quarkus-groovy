@@ -8,7 +8,7 @@
   </parent>
   <groupId>io.quarkiverse.groovy</groupId>
   <artifactId>quarkus-groovy-parent</artifactId>
-  <version>999-SNAPSHOT</version>
+  <version>3.8.1</version>
   <packaging>pom</packaging>
   <name>Quarkus Groovy - Parent</name>
   <modules>
@@ -19,7 +19,7 @@
     <connection>scm:git:git@github.com:quarkiverse/quarkus-groovy.git</connection>
     <developerConnection>scm:git:git@github.com:quarkiverse/quarkus-groovy.git</developerConnection>
     <url>https://github.com/quarkiverse/quarkus-groovy</url>
-    <tag>HEAD</tag>
+    <tag>3.8.1</tag>
   </scm>
   <properties>
     <compiler-plugin.version>3.11.0</compiler-plugin.version>
