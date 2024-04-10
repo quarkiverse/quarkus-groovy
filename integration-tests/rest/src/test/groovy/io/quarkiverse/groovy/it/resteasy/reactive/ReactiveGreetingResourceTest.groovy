@@ -38,27 +38,27 @@ class ReactiveGreetingResourceTest {
     void testHello() {
         given()
             .when()
-            .get("/hello-resteasy-reactive/")
+            .get("/hello-rest/")
             .then()
             .statusCode(200)
-            .body(is("Hello RestEASY Reactive"))
+            .body(is("Hello Rest"))
     }
 
     @Test
     void testStandard() {
         given()
             .when()
-            .get("/hello-resteasy-reactive/standard")
+            .get("/hello-rest/standard")
             .then()
             .statusCode(200)
-            .body(is("Hello RestEASY Reactive"))
+            .body(is("Hello Rest"))
     }
 
     @Test
     void testNamedHello() {
         given()
             .when()
-            .get("/hello-resteasy-reactive/Bob")
+            .get("/hello-rest/Bob")
             .then()
             .statusCode(200)
             .body(is("Hello Bob"))
