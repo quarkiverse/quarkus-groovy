@@ -13,7 +13,7 @@
     <module>basic</module>
     <module>shared-library</module>
     <module>resteasy</module>
-    <module>resteasy-reactive</module>
+    <module>rest</module>
     <module>hibernate-orm-panache</module>
     <module>hibernate-reactive-panache</module>
   </modules>

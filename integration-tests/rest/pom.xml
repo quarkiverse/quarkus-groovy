@@ -8,13 +8,13 @@
         <version>999-SNAPSHOT</version>
     </parent>
 
-    <artifactId>quarkus-groovy-integration-tests-resteasy-reactive</artifactId>
-    <name>Quarkus Groovy - Integration Tests - RESTEasy Reactive Groovy tests</name>
+    <artifactId>quarkus-groovy-integration-tests-rest</artifactId>
+    <name>Quarkus Groovy - Integration Tests - REST Groovy tests</name>
 
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy-reactive-jackson</artifactId>
+            <artifactId>quarkus-rest-jackson</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-smallrye-reactive-messaging-kafka</artifactId>
+            <artifactId>quarkus-messaging-kafka</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>

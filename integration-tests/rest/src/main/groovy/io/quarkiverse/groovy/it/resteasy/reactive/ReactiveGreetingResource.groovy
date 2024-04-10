@@ -32,7 +32,7 @@ import java.time.Duration
 // Could change the code to allow static compilation but the idea is to show that the dynamic compilation can be used
 // as long as the reflection is properly configured
 @RegisterForReflection(targets= [Uni.class, UniCreate.class, UniOnItem.class, UniOnItemDelay.class])
-@Path("/hello-resteasy-reactive")
+@Path("/hello-rest")
 class ReactiveGreetingResource {
 
     @Inject
@@ -52,7 +52,7 @@ class ReactiveGreetingResource {
                 }
             }
             .onItem().transform {
-               "Hello RestEASY Reactive"
+               "Hello Rest"
             }
     }
 
@@ -60,7 +60,7 @@ class ReactiveGreetingResource {
     @Produces(MediaType.TEXT_PLAIN)
     @Path("/standard")
     String standard() {
-        "Hello RestEASY Reactive"
+        "Hello Rest"
     }
 
     @GET

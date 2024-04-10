@@ -34,10 +34,10 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy-reactive-jsonb</artifactId>
+            <artifactId>quarkus-rest-jsonb</artifactId>
         </dependency>
         <!--
-        Makes sure that undertow does not interfere with RESTEasy Reactive
+        Makes sure that undertow does not interfere with Quarkus REST
         Undertow is blocking so if it interfered it would break everything
         but the RR endpoints should run first
         -->
