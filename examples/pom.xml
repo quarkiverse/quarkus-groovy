@@ -10,7 +10,7 @@
   <name>Quarkus Groovy - Examples - Parent</name>
   <packaging>pom</packaging>
   <modules>
-<!--    <module>gradle-resteasy</module>-->
+    <module>gradle-resteasy</module>
     <module>reactive-routes</module>
     <module>resteasy</module>
     <module>spring-web</module>
