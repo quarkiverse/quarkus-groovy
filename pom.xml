@@ -30,7 +30,7 @@
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
-    <groovy.version>4.0.20</groovy.version>
+    <groovy.version>4.0.21</groovy.version>
     <groovy-maven-plugin.version>3.0.2</groovy-maven-plugin.version>
     <hibernate-orm.version>6.4.0.Final</hibernate-orm.version>
     <docker-maven-plugin.version>0.44.0</docker-maven-plugin.version>
