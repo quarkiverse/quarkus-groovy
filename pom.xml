@@ -10,7 +10,7 @@
   <artifactId>quarkus-groovy-parent</artifactId>
   <version>999-SNAPSHOT</version>
   <packaging>pom</packaging>
-  <name>Quarkus Groovy - Parent</name>
+  <name>Quarkus Groovy - Parent Test</name>
   <modules>
     <module>extensions</module>
     <module>docs</module>
