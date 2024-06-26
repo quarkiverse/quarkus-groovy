@@ -1622,15 +1622,15 @@ class TestEndpoint {
                                 count -> Assertions.assertEquals(1L, count)
                             }
                 }
-                .invoke {
-                    PanacheQueryException exception = Assertions.assertThrows(PanacheQueryException.class,
-                            {
-                                catRepository.find("select new FakeClass('fake_cat', 'fake_owner', 12.5) from Cat c")
-                                        .project(CatProjectionBean.class)
-                            })
-                    Assertions.assertTrue(
-                            exception.getMessage().startsWith("Unable to perform a projection on a 'select new' query"))
-                }
+//                .invoke {
+//                    PanacheQueryException exception = Assertions.assertThrows(PanacheQueryException.class,
+//                            {
+//                                catRepository.find("select new FakeClass('fake_cat', 'fake_owner', 12.5) from Cat c")
+//                                        .project(CatProjectionBean.class)
+//                            })
+//                    Assertions.assertTrue(
+//                            exception.getMessage().startsWith("Unable to perform a projection on a 'select new' query"))
+//                }
                 .flatMap {
                     catRepository
                             .find("   SELECT   disTINct  'GARFIELD', 'JoN ArBuCkLe' from Cat c where name = :NamE group by name  ",

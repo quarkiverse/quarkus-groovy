@@ -262,4 +262,9 @@ class PanacheFunctionalityTest {
     void testEnhancement27184DeleteDetached() {
         RestAssured.when().get("/test/testEnhancement27184DeleteDetached").then().body(is("OK"))
     }
+
+    @Test
+    void testBug31117() {
+        RestAssured.when().get("/test/31117").then().body(is("OK"));
+    }
 }
