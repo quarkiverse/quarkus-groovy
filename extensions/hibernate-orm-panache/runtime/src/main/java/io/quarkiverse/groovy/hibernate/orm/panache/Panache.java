@@ -18,8 +18,9 @@ package io.quarkiverse.groovy.hibernate.orm.panache;
 
 import java.util.Map;
 
-import jakarta.persistence.EntityManager;
 import jakarta.transaction.TransactionManager;
+
+import org.hibernate.Session;
 
 import io.quarkiverse.groovy.hibernate.orm.panache.runtime.JpaOperations;
 import io.quarkus.hibernate.orm.panache.common.runtime.AbstractJpaOperations;
@@ -31,32 +32,32 @@ import io.quarkus.panache.common.Parameters;
 public class Panache {
 
     /**
-     * Returns the default {@link EntityManager}
+     * Returns the default {@link Session}
      *
-     * @return {@link EntityManager}
+     * @return {@link Session}
      */
-    public static EntityManager getEntityManager() {
-        return JpaOperations.INSTANCE.getEntityManager();
+    public static Session getSession() {
+        return JpaOperations.INSTANCE.getSession();
     }
 
     /**
-     * Returns the {@link EntityManager} for the given {@link Class<?> entity}
+     * Returns the {@link Session} for the given {@link Class<?> entity}
      *
      * @param clazz the entity class corresponding to the entity manager persistence unit.
-     * @return {@link EntityManager}
+     * @return {@link Session}
      */
-    public static EntityManager getEntityManager(Class<?> clazz) {
-        return JpaOperations.INSTANCE.getEntityManager(clazz);
+    public static Session getSession(Class<?> clazz) {
+        return JpaOperations.INSTANCE.getSession(clazz);
     }
 
     /**
-     * Returns the {@link EntityManager} for the given persistence unit
+     * Returns the {@link Session} for the given persistence unit
      *
      * @param persistenceUnit the persistence unit for this entity manager.
-     * @return {@link EntityManager}
+     * @return {@link Session}
      */
-    public static EntityManager getEntityManager(String persistenceUnit) {
-        return JpaOperations.INSTANCE.getEntityManager(persistenceUnit);
+    public static Session getSession(String persistenceUnit) {
+        return JpaOperations.INSTANCE.getSession(persistenceUnit);
     }
 
     /**
@@ -113,7 +114,7 @@ public class Panache {
      * Flushes all pending changes to the database using the default entity manager.
      */
     public static void flush() {
-        getEntityManager().flush();
+        getSession().flush();
     }
 
     /**
@@ -122,7 +123,7 @@ public class Panache {
      * @param clazz the entity class corresponding to the entity manager persistence unit.
      */
     public static void flush(Class<?> clazz) {
-        getEntityManager(clazz).flush();
+        getSession(clazz).flush();
     }
 
     /**
@@ -131,6 +132,6 @@ public class Panache {
      * @param persistenceUnit the persistence unit for this entity manager.
      */
     public static void flush(String persistenceUnit) {
-        getEntityManager(persistenceUnit).flush();
+        getSession(persistenceUnit).flush();
     }
 }
