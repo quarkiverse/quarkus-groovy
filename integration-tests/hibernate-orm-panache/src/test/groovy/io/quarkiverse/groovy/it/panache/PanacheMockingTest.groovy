@@ -18,6 +18,7 @@ package io.quarkiverse.groovy.it.panache
 
 import groovy.transform.CompileStatic
 import io.quarkiverse.groovy.hibernate.orm.panache.PanacheRepositoryBase
+import io.quarkus.test.InjectMock
 import jakarta.inject.Inject
 import jakarta.persistence.LockModeType
 import jakarta.ws.rs.WebApplicationException
@@ -32,7 +33,6 @@ import org.mockito.Mockito
 
 import io.quarkus.panache.mock.PanacheMock
 import io.quarkus.test.junit.QuarkusTest
-import io.quarkus.test.junit.mockito.InjectMock
 
 // Needed to be able to use PanacheMock
 @CompileStatic
@@ -46,7 +46,7 @@ class PanacheMockingTest {
     void setup() {
         Query mockQuery = Mockito.mock(Query.class)
         Mockito.doNothing().when(session).persist(Mockito.any())
-        Mockito.when(session.createQuery(Mockito.anyString())).thenReturn(mockQuery)
+        Mockito.when(session.createSelectionQuery(Mockito.anyString(), Mockito.any())).thenReturn(mockQuery)
         Mockito.when(mockQuery.getSingleResult()).thenReturn(0l)
     }
 
