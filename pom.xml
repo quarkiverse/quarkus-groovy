@@ -13,7 +13,6 @@
   <name>Quarkus Groovy - Parent</name>
   <modules>
     <module>extensions</module>
-    <module>docs</module>
   </modules>
   <scm>
     <connection>scm:git:git@github.com:quarkiverse/quarkus-groovy.git</connection>
@@ -189,22 +188,34 @@
   </build>
   <profiles>
     <profile>
+      <id>docs</id>
+      <activation>
+        <property>
+          <name>performRelease</name>
+          <value>!true</value>
+        </property>
+      </activation>
+      <modules>
+        <module>docs</module>
+      </modules>
+    </profile>
+    <profile>
       <id>quick-build</id>
       <activation>
         <property>
           <name>quickly</name>
         </property>
       </activation>
-      <properties>
-        <skipTests>true</skipTests>
-        <skipITs>true</skipITs>
-        <skipDocs>true</skipDocs>
-        <enforcer.skip>true</enforcer.skip>
-        <skip.gradle.tests>true</skip.gradle.tests>
-      </properties>
       <build>
         <defaultGoal>clean install</defaultGoal>
       </build>
+      <properties>
+        <skipDocs>true</skipDocs>
+        <skipITs>true</skipITs>
+        <skip.gradle.tests>true</skip.gradle.tests>
+        <skipTests>true</skipTests>
+        <enforcer.skip>true</enforcer.skip>
+      </properties>
     </profile>
     <profile>
       <id>it-examples</id>
@@ -228,7 +239,6 @@
         <enabled>false</enabled>
       </releases>
       <snapshots>
-        <enabled>true</enabled>
       </snapshots>
     </repository>
   </repositories>
@@ -240,7 +250,6 @@
         <enabled>false</enabled>
       </releases>
       <snapshots>
-        <enabled>true</enabled>
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
