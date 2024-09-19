@@ -7,7 +7,7 @@
 [![License](https://img.shields.io/github/license/quarkiverse/quarkus-groovy)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Central](https://img.shields.io/maven-central/v/io.quarkiverse.groovy/quarkus-groovy?color=green)](https://search.maven.org/search?q=g:io.quarkiverse.groovy%20AND%20a:quarkus-groovy)
 
-Quarkus Groovy is a Quarkus extension that allows you to write Quarkus 3.14 applications in Groovy 4.0.
+Quarkus Groovy is a Quarkus extension that allows you to write Quarkus 3.15 applications in Groovy 4.0.
 
 With Maven, add the following dependency to your `pom.xml` to get started:
 
