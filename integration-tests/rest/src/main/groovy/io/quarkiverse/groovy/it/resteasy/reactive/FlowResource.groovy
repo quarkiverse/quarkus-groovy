@@ -62,7 +62,7 @@ class FlowResource {
         Uni.createFrom().nullItem()
             .onItem().delayIt().by(Duration.ofMillis(100))
             .onItem().<String>transformToMulti {
-                Multi.createFrom().emitter(emitter -> {
+                Multi.createFrom().<String>emitter(emitter -> {
                     try {
                         emitter.emit(uppercaseService.convert("Hello"))
                         emitter.emit(uppercaseService.convert("From"))
