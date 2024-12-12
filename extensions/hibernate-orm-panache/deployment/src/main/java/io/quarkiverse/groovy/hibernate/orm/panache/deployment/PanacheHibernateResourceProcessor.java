@@ -53,10 +53,10 @@ import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.util.JandexUtil;
 import io.quarkus.hibernate.orm.deployment.AdditionalJpaModelBuildItem;
 import io.quarkus.hibernate.orm.deployment.JpaModelPersistenceUnitMappingBuildItem;
-import io.quarkus.panache.common.deployment.HibernateEnhancersRegisteredBuildItem;
-import io.quarkus.panache.common.deployment.PanacheJpaEntityOperationsEnhancer;
 import io.quarkus.panache.common.deployment.PanacheMethodCustomizer;
 import io.quarkus.panache.common.deployment.PanacheMethodCustomizerBuildItem;
+import io.quarkus.panache.hibernate.common.deployment.HibernateEnhancersRegisteredBuildItem;
+import io.quarkus.panache.hibernate.common.deployment.PanacheJpaEntityOperationsEnhancer;
 
 public final class PanacheHibernateResourceProcessor {
 

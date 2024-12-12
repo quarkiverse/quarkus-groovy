@@ -60,10 +60,10 @@ import io.quarkus.hibernate.orm.deployment.AdditionalJpaModelBuildItem;
 import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.quarkus.hibernate.reactive.panache.common.WithSessionOnDemand;
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
-import io.quarkus.panache.common.deployment.HibernateEnhancersRegisteredBuildItem;
-import io.quarkus.panache.common.deployment.PanacheJpaEntityOperationsEnhancer;
 import io.quarkus.panache.common.deployment.PanacheMethodCustomizer;
 import io.quarkus.panache.common.deployment.PanacheMethodCustomizerBuildItem;
+import io.quarkus.panache.hibernate.common.deployment.HibernateEnhancersRegisteredBuildItem;
+import io.quarkus.panache.hibernate.common.deployment.PanacheJpaEntityOperationsEnhancer;
 import io.smallrye.mutiny.Multi;
 import io.smallrye.mutiny.Uni;
 
