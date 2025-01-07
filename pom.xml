@@ -30,7 +30,7 @@
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
     <groovy.version>4.0.24</groovy.version>
-    <groovy-maven-plugin.version>4.0.1</groovy-maven-plugin.version>
+    <groovy-maven-plugin.version>4.1.1</groovy-maven-plugin.version>
     <jandex-maven-plugin.version>3.2.3</jandex-maven-plugin.version>
     <hibernate-orm.version>6.4.0.Final</hibernate-orm.version>
     <docker-maven-plugin.version>0.45.1</docker-maven-plugin.version>
