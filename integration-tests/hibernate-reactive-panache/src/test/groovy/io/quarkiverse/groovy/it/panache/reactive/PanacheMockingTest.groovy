@@ -17,6 +17,7 @@
 package io.quarkiverse.groovy.it.panache.reactive
 
 import groovy.transform.CompileStatic
+import io.quarkus.test.InjectMock
 
 import static org.junit.jupiter.api.Assertions.assertEquals
 import static org.junit.jupiter.api.Assertions.assertNull
@@ -34,7 +35,6 @@ import io.quarkiverse.groovy.hibernate.reactive.panache.Panache
 import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheRepositoryBase
 import io.quarkus.panache.mock.PanacheMock
 import io.quarkus.test.junit.QuarkusTest
-import io.quarkus.test.junit.mockito.InjectMock
 import io.quarkus.test.vertx.RunOnVertxContext
 import io.quarkus.test.vertx.UniAsserter
 import io.smallrye.mutiny.Uni
