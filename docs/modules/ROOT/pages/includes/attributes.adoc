@@ -1,1 +1,1 @@
-:project-version: 3.23.3
+:project-version: 3.24.0
