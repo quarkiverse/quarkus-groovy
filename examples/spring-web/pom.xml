@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.quarkiverse.groovy</groupId>
         <artifactId>quarkus-groovy-examples-parent</artifactId>
-        <version>3.24.3</version>
+        <version>999-SNAPSHOT</version>
     </parent>
     <artifactId>quarkus-groovy-examples-spring-web</artifactId>
     <name>Quarkus Groovy - Examples - Spring Web</name>
