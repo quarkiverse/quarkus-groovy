@@ -3,7 +3,7 @@
 [![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
-[![Build](https://github.com/quarkiverse/quarkus-groovy/workflows/Build/badge.svg?branch=main)](https://github.com/quarkiverse/quarkus-groovy/actions?query=workflow%3ABuild)
+[![Build](https://github.com/quarkiverse/quarkus-groovy/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/quarkiverse/quarkus-groovy/actions?query=workflow%3ABuild)
 [![License](https://img.shields.io/github/license/quarkiverse/quarkus-groovy)](http://www.apache.org/licenses/LICENSE-2.0)
 [![Central](https://img.shields.io/maven-central/v/io.quarkiverse.groovy/quarkus-groovy?color=green)](https://search.maven.org/search?q=g:io.quarkiverse.groovy%20AND%20a:quarkus-groovy)
 
