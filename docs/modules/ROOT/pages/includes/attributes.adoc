@@ -1,1 +1,1 @@
-:project-version: 3.25.3
+:project-version: 3.25.4
