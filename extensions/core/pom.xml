@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.quarkiverse.groovy</groupId>
     <artifactId>quarkus-groovy-extensions-parent</artifactId>
-    <version>3.26.2</version>
+    <version>999-SNAPSHOT</version>
   </parent>
   <artifactId>quarkus-groovy-core-parent</artifactId>
   <name>Quarkus Groovy - Core - Parent</name>
