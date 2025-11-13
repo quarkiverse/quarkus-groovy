@@ -33,7 +33,7 @@
     <groovy-maven-plugin.version>4.2.1</groovy-maven-plugin.version>
     <jandex-maven-plugin.version>3.5.2</jandex-maven-plugin.version>
     <hibernate-orm.version>6.4.0.Final</hibernate-orm.version>
-    <docker-maven-plugin.version>0.46.0</docker-maven-plugin.version>
+    <docker-maven-plugin.version>0.47.0</docker-maven-plugin.version>
     <exec-maven-plugin.version>3.6.2</exec-maven-plugin.version>
     <assertj.version>3.27.6</assertj.version>
     <script.extension>sh</script.extension>
