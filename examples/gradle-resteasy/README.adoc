@@ -23,14 +23,14 @@ You can create a native executable using:
 
 [source,sh]
 ----
-$ ./gradlew build -Dquarkus.package.type=native
+$ ./gradlew build -Dquarkus.native.enabled=true -Dquarkus.package.jar.enabled=false
 ----
 
 Or, if you don't have GraalVM installed, you can run the native executable build in a container using:
 
 [source,sh]
 ----
-$ ./gradlew build -Dquarkus.package.type=native -Dquarkus.native.container-build=true
+$ ./gradlew build -Dquarkus.native.enabled=true -Dquarkus.native.container-build=true -Dquarkus.package.jar.enabled=false
 ----
 
 You can then execute your native executable with: `./build/gradle-resteasy-${project.version}-runner`

@@ -28,9 +28,11 @@ import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.maven.it.RunAndCheckWithAgentMojoTestBase;
-import io.quarkus.test.devmode.util.DevModeTestUtils;
+import io.quarkus.test.devmode.util.DevModeClient;
 
 class GroovyRemoteDevModeIT extends RunAndCheckWithAgentMojoTestBase {
+
+    private final DevModeClient devModeClient = new DevModeClient();
 
     @Test
     void testThatTheApplicationIsReloadedOnGroovyChange()
@@ -47,7 +49,7 @@ class GroovyRemoteDevModeIT extends RunAndCheckWithAgentMojoTestBase {
         // Wait until we get "uuid"
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
-                .atMost(3, TimeUnit.MINUTES).until(() -> DevModeTestUtils.getHttpResponse("/app/hello").contains(uuid));
+                .atMost(3, TimeUnit.MINUTES).until(() -> devModeClient.getHttpResponse("/app/hello").contains(uuid));
 
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
@@ -59,6 +61,6 @@ class GroovyRemoteDevModeIT extends RunAndCheckWithAgentMojoTestBase {
         // Wait until we get "carambar"
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
-                .atMost(3, TimeUnit.MINUTES).until(() -> DevModeTestUtils.getHttpResponse("/app/hello").contains("carambar"));
+                .atMost(3, TimeUnit.MINUTES).until(() -> devModeClient.getHttpResponse("/app/hello").contains("carambar"));
     }
 }

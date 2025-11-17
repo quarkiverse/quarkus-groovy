@@ -29,9 +29,11 @@ import org.apache.maven.shared.invoker.MavenInvocationException;
 import org.junit.jupiter.api.Test;
 
 import io.quarkus.maven.it.RunAndCheckMojoTestBase;
-import io.quarkus.test.devmode.util.DevModeTestUtils;
+import io.quarkus.test.devmode.util.DevModeClient;
 
 class GroovyDevModeIT extends RunAndCheckMojoTestBase {
+
+    private final DevModeClient devModeClient = new DevModeClient();
 
     @Test
     void testThatTheApplicationIsReloadedOnGroovyChange() throws MavenInvocationException, IOException {
@@ -46,7 +48,7 @@ class GroovyDevModeIT extends RunAndCheckMojoTestBase {
         // Wait until we get "uuid"
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
-                .atMost(1, TimeUnit.MINUTES).until(() -> DevModeTestUtils.getHttpResponse("/app/hello").contains(uuid));
+                .atMost(1, TimeUnit.MINUTES).until(() -> devModeClient.getHttpResponse("/app/hello").contains(uuid));
 
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
@@ -58,7 +60,7 @@ class GroovyDevModeIT extends RunAndCheckMojoTestBase {
         // Wait until we get "carambar"
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
-                .atMost(1, TimeUnit.MINUTES).until(() -> DevModeTestUtils.getHttpResponse("/app/hello").contains("carambar"));
+                .atMost(1, TimeUnit.MINUTES).until(() -> devModeClient.getHttpResponse("/app/hello").contains("carambar"));
 
         File greetingService = new File(testDir, "src/main/groovy/org/acme/GreetingService.groovy");
         String newUuid = UUID.randomUUID().toString();
@@ -67,11 +69,11 @@ class GroovyDevModeIT extends RunAndCheckMojoTestBase {
         // Wait until we get "newUuid"
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
-                .atMost(1, TimeUnit.MINUTES).until(() -> DevModeTestUtils.getHttpResponse("/app/hello/bean").contains(newUuid));
+                .atMost(1, TimeUnit.MINUTES).until(() -> devModeClient.getHttpResponse("/app/hello/bean").contains(newUuid));
     }
 
     @Test
-    public void testThatTheApplicationIsReloadedOnGroovyChangeWithCustomCompilerArgs()
+    void testThatTheApplicationIsReloadedOnGroovyChangeWithCustomCompilerArgs()
             throws MavenInvocationException, IOException {
         testDir = initProject("projects/groovy-compiler-args", "projects/groovy-compiler-args-change");
         runAndCheck(true);
@@ -84,22 +86,22 @@ class GroovyDevModeIT extends RunAndCheckMojoTestBase {
         // Wait until we get "uuid"
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
-                .atMost(1, TimeUnit.MINUTES).until(() -> DevModeTestUtils.getHttpResponse("/app/hello").contains(uuid));
+                .atMost(1, TimeUnit.MINUTES).until(() -> devModeClient.getHttpResponse("/app/hello").contains(uuid));
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
                 .atMost(1, TimeUnit.MINUTES)
-                .until(() -> DevModeTestUtils.getHttpResponse("/app/hello/name").contains("someName"));
+                .until(() -> devModeClient.getHttpResponse("/app/hello/name").contains("someName"));
 
         File helloService = new File(testDir, "src/main/groovy/org/acme/Hello.groovy");
         filter(helloService, Map.of("someName", "otherName"));
         await()
                 .pollDelay(1, TimeUnit.SECONDS)
                 .atMost(1, TimeUnit.MINUTES)
-                .until(() -> DevModeTestUtils.getHttpResponse("/app/hello/name").contains("otherName"));
+                .until(() -> devModeClient.getHttpResponse("/app/hello/name").contains("otherName"));
     }
 
     @Test
-    public void testExternalGroovyReloadableArtifacts() throws Exception {
+    void testExternalGroovyReloadableArtifacts() throws Exception {
         final String rootProjectPath = "projects/external-reloadable-artifacts";
 
         // Set up the external project
@@ -117,7 +119,7 @@ class GroovyDevModeIT extends RunAndCheckMojoTestBase {
         await()
                 .pollDelay(100, TimeUnit.MILLISECONDS)
                 .atMost(1, TimeUnit.MINUTES)
-                .until(() -> DevModeTestUtils.getHttpResponse("/hello").contains("Hello"));
+                .until(() -> devModeClient.getHttpResponse("/hello").contains("Hello"));
 
         final File greetingGroovy = externalJarDir.toPath().resolve("src").resolve("main")
                 .resolve("groovy").resolve("org").resolve("acme").resolve("lib")
@@ -140,7 +142,7 @@ class GroovyDevModeIT extends RunAndCheckMojoTestBase {
         await()
                 .pollDelay(100, TimeUnit.MILLISECONDS)
                 .atMost(1, TimeUnit.MINUTES)
-                .until(() -> DevModeTestUtils.getHttpResponse("/hello").contains("Bonjour"));
+                .until(() -> devModeClient.getHttpResponse("/hello").contains("Bonjour"));
 
         // Change bonjour() method content in Greeting.groovy
         filter(greetingGroovy, Map.of("Bonjour", "Bonjour!"));
@@ -152,6 +154,6 @@ class GroovyDevModeIT extends RunAndCheckMojoTestBase {
         await()
                 .pollDelay(100, TimeUnit.MILLISECONDS)
                 .atMost(1, TimeUnit.MINUTES)
-                .until(() -> DevModeTestUtils.getHttpResponse("/hello").contains("BONJOUR!"));
+                .until(() -> devModeClient.getHttpResponse("/hello").contains("BONJOUR!"));
     }
 }

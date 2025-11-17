@@ -25,11 +25,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
 
-import jakarta.persistence.EntityManager;
 import jakarta.persistence.Id;
 
+import org.hibernate.Session;
 import org.jboss.jandex.AnnotationInstance;
 import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
@@ -41,6 +40,7 @@ import io.quarkiverse.groovy.hibernate.orm.panache.PanacheRepositoryBase;
 import io.quarkiverse.groovy.hibernate.orm.panache.runtime.PanacheHibernateOrmRecorder;
 import io.quarkus.arc.deployment.UnremovableBeanBuildItem;
 import io.quarkus.arc.deployment.ValidationPhaseBuildItem;
+import io.quarkus.arc.deployment.staticmethods.InterceptedStaticMethodsTransformersRegisteredBuildItem;
 import io.quarkus.builder.BuildException;
 import io.quarkus.deployment.annotations.BuildProducer;
 import io.quarkus.deployment.annotations.BuildStep;
@@ -51,8 +51,8 @@ import io.quarkus.deployment.builditem.BytecodeTransformerBuildItem;
 import io.quarkus.deployment.builditem.CombinedIndexBuildItem;
 import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.util.JandexUtil;
-import io.quarkus.hibernate.orm.deployment.AdditionalJpaModelBuildItem;
 import io.quarkus.hibernate.orm.deployment.JpaModelPersistenceUnitMappingBuildItem;
+import io.quarkus.hibernate.orm.deployment.spi.AdditionalJpaModelBuildItem;
 import io.quarkus.panache.common.deployment.PanacheMethodCustomizer;
 import io.quarkus.panache.common.deployment.PanacheMethodCustomizerBuildItem;
 import io.quarkus.panache.hibernate.common.deployment.HibernateEnhancersRegisteredBuildItem;
@@ -66,7 +66,7 @@ public final class PanacheHibernateResourceProcessor {
     static final DotName DOTNAME_PANACHE_ENTITY = DotName.createSimple(PanacheEntity.class.getName());
     static final DotName DOTNAME_PANACHE_ENTITY_BASE = DotName.createSimple(PanacheEntityBase.class.getName());
 
-    private static final DotName DOTNAME_ENTITY_MANAGER = DotName.createSimple(EntityManager.class.getName());
+    private static final DotName DOTNAME_SESSION = DotName.createSimple(Session.class.getName());
 
     private static final DotName DOTNAME_ID = DotName.createSimple(Id.class.getName());
 
@@ -79,12 +79,17 @@ public final class PanacheHibernateResourceProcessor {
     AdditionalJpaModelBuildItem produceModel() {
         // only useful for the index resolution: hibernate will register it to be transformed, but BuildMojo
         // only transforms classes from the application jar, so we do our own transforming
-        return new AdditionalJpaModelBuildItem("io.quarkiverse.groovy.hibernate.orm.panache.PanacheEntity");
+        return new AdditionalJpaModelBuildItem("io.quarkiverse.groovy.hibernate.orm.panache.PanacheEntity",
+                // Only added to persistence units actually using this class, using Jandex-based discovery,
+                // so we pass empty sets of PUs.
+                // The build items tell the Hibernate extension to process the classes at build time:
+                // add to Jandex index, bytecode enhancement, proxy generation, ...
+                Set.of());
     }
 
     @BuildStep
     UnremovableBeanBuildItem ensureBeanLookupAvailable() {
-        return new UnremovableBeanBuildItem(new UnremovableBeanBuildItem.BeanTypeExclusion(DOTNAME_ENTITY_MANAGER));
+        return new UnremovableBeanBuildItem(new UnremovableBeanBuildItem.BeanTypeExclusion(DOTNAME_SESSION));
     }
 
     @BuildStep
@@ -100,6 +105,7 @@ public final class PanacheHibernateResourceProcessor {
 
     @BuildStep
     @Consume(HibernateEnhancersRegisteredBuildItem.class)
+    @Consume(InterceptedStaticMethodsTransformersRegisteredBuildItem.class)
     void build(
             CombinedIndexBuildItem index,
             BuildProducer<BytecodeTransformerBuildItem> transformers,
@@ -109,7 +115,7 @@ public final class PanacheHibernateResourceProcessor {
             BuildProducer<EntityToPersistenceUnitBuildItem> entityToPersistenceUnit) {
 
         List<PanacheMethodCustomizer> methodCustomizers = methodCustomizersBuildItems.stream()
-                .map(PanacheMethodCustomizerBuildItem::getMethodCustomizer).collect(Collectors.toList());
+                .map(PanacheMethodCustomizerBuildItem::getMethodCustomizer).toList();
 
         PanacheJpaRepositoryEnhancer daoEnhancer = new PanacheJpaRepositoryEnhancer(index.getIndex(),
                 GroovyJpaTypeBundle.BUNDLE);
@@ -132,7 +138,7 @@ public final class PanacheHibernateResourceProcessor {
         for (PanacheEntityClassBuildItem entityClass : entityClasses) {
             String entityClassName = entityClass.get().name().toString();
             modelClasses.add(entityClassName);
-            transformers.produce(new BytecodeTransformerBuildItem(true, entityClassName, entityOperationsEnhancer));
+            transformers.produce(new BytecodeTransformerBuildItem(entityClassName, entityOperationsEnhancer));
         }
 
         panacheEntities.addAll(modelClasses);
@@ -143,12 +149,16 @@ public final class PanacheHibernateResourceProcessor {
 
     @BuildStep
     @Record(ExecutionTime.STATIC_INIT)
-    void recordEntityToPersistenceUnit(List<EntityToPersistenceUnitBuildItem> items, PanacheHibernateOrmRecorder recorder) {
+    void recordEntityToPersistenceUnit(Optional<JpaModelPersistenceUnitMappingBuildItem> jpaModelPersistenceUnitMapping,
+            List<EntityToPersistenceUnitBuildItem> items, PanacheHibernateOrmRecorder recorder) {
         Map<String, String> map = new HashMap<>();
         for (EntityToPersistenceUnitBuildItem item : items) {
             map.put(item.getEntityClass(), item.getPersistenceUnitName());
         }
-        recorder.setEntityToPersistenceUnit(map);
+        recorder.setEntityToPersistenceUnit(map,
+                jpaModelPersistenceUnitMapping.map(JpaModelPersistenceUnitMappingBuildItem::isIncomplete)
+                        // This happens if there is no persistence unit, in which case we definitely know this metadata is complete.
+                        .orElse(false));
     }
 
     @BuildStep
