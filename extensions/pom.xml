@@ -22,7 +22,7 @@
           <plugin>
               <groupId>io.quarkus</groupId>
               <artifactId>quarkus-extension-maven-plugin</artifactId>
-              <version>${project.version}</version>
+              <version>${quarkus.version}</version>
               <executions>
                   <execution>
                       <id>generate-extension-descriptor</id>
