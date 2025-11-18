@@ -16,4 +16,27 @@
     <module>jaxb</module>
     <module>junit5</module>
   </modules>
+  <build>
+    <pluginManagement>
+      <plugins>
+          <plugin>
+              <groupId>io.quarkus</groupId>
+              <artifactId>quarkus-extension-maven-plugin</artifactId>
+              <version>${project.version}</version>
+              <executions>
+                  <execution>
+                      <id>generate-extension-descriptor</id>
+                      <goals>
+                          <goal>extension-descriptor</goal>
+                      </goals>
+                      <phase>process-resources</phase>
+                      <configuration>
+                          <deployment>${project.groupId}:${project.artifactId}-deployment:${project.version}</deployment>
+                      </configuration>
+                  </execution>
+              </executions>
+          </plugin>
+      </plugins>
+    </pluginManagement>
+  </build>
 </project>

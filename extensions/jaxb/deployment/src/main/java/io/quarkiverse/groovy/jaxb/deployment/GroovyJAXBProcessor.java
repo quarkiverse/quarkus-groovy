@@ -91,7 +91,7 @@ class GroovyJAXBProcessor {
                 addClassesToTransform(view, pType, classesToTransform, classesProcessed);
             }
         } else if (type.kind() == Type.Kind.ARRAY) {
-            addClassesToTransform(view, type.asArrayType().component(), classesToTransform, classesProcessed);
+            addClassesToTransform(view, type.asArrayType().constituent(), classesToTransform, classesProcessed);
         }
     }
 

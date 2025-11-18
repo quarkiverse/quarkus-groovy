@@ -71,7 +71,8 @@
                                     <arguments>
                                         <argument>clean</argument>
                                         <argument>${gradle.task}</argument>
-                                        <argument>-Dquarkus.package.type=native</argument>
+                                        <argument>-Dquarkus.native.enabled=true</argument>
+                                        <argument>-Dquarkus.package.jar.enabled=false</argument>
                                         <argument>-Pdescription=${project.description}</argument>
                                         <argument>-S</argument>
                                         <argument>--stacktrace</argument>

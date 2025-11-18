@@ -18,6 +18,7 @@ package io.quarkiverse.groovy.hibernate.orm.panache;
 
 import java.util.Map;
 
+import jakarta.persistence.EntityManager;
 import jakarta.transaction.TransactionManager;
 
 import org.hibernate.Session;
@@ -32,12 +33,31 @@ import io.quarkus.panache.common.Parameters;
 public class Panache {
 
     /**
+     * Returns the default {@link EntityManager}
+     *
+     * @return {@link EntityManager}
+     */
+    public static EntityManager getEntityManager() {
+        return JpaOperations.INSTANCE.getSession();
+    }
+
+    /**
      * Returns the default {@link Session}
      *
      * @return {@link Session}
      */
     public static Session getSession() {
         return JpaOperations.INSTANCE.getSession();
+    }
+
+    /**
+     * Returns the {@link EntityManager} for the given {@link Class<?> entity}
+     *
+     * @param clazz the entity class corresponding to the entity manager persistence unit.
+     * @return {@link EntityManager}
+     */
+    public static EntityManager getEntityManager(Class<?> clazz) {
+        return JpaOperations.INSTANCE.getSession(clazz);
     }
 
     /**
@@ -48,6 +68,16 @@ public class Panache {
      */
     public static Session getSession(Class<?> clazz) {
         return JpaOperations.INSTANCE.getSession(clazz);
+    }
+
+    /**
+     * Returns the {@link EntityManager} for the given persistence unit
+     *
+     * @param persistenceUnit the persistence unit for this entity manager.
+     * @return {@link EntityManager}
+     */
+    public static EntityManager getEntityManager(String persistenceUnit) {
+        return JpaOperations.INSTANCE.getSession(persistenceUnit);
     }
 
     /**

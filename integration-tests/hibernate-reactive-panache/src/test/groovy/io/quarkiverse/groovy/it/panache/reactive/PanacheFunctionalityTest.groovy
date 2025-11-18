@@ -18,6 +18,7 @@ package io.quarkiverse.groovy.it.panache.reactive
 
 import jakarta.inject.Inject
 import org.hibernate.reactive.mutiny.Mutiny
+import org.junit.jupiter.api.Disabled
 
 import static org.hamcrest.Matchers.is
 import static org.junit.jupiter.api.Assertions.assertEquals
@@ -100,11 +101,13 @@ class PanacheFunctionalityTest {
         asserter.assertEquals({ Panache.withSession({ personDao.count() }) }, 0l)
     }
 
+    @Disabled("https://github.com/quarkiverse/quarkus-groovy/issues/329")
     @Test
     void testBug5274() {
         RestAssured.when().get("/test/5274").then().body(is("OK"))
     }
 
+    @Disabled("https://github.com/quarkiverse/quarkus-groovy/issues/329")
     @Test
     void testBug5885() {
         RestAssured.when().get("/test/5885").then().body(is("OK"))

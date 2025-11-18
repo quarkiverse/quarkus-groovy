@@ -10,20 +10,32 @@
     <name>Quarkus Groovy - Hibernate ORM with Panache - Deployment</name>
     <dependencies>
         <dependency>
-            <groupId>io.quarkiverse.groovy</groupId>
-            <artifactId>quarkus-groovy-hibernate-orm-panache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkiverse.groovy</groupId>
-            <artifactId>quarkus-groovy-deployment</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-orm-panache-common-deployment</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-panache-hibernate-common-deployment</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.groovy</groupId>
+            <artifactId>quarkus-groovy-hibernate-orm-panache</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-tree</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.ow2.asm</groupId>
+            <artifactId>asm-analysis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkiverse.groovy</groupId>
+            <artifactId>quarkus-groovy-deployment</artifactId>
         </dependency>
     </dependencies>
     <build>

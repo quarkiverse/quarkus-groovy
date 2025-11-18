@@ -25,14 +25,14 @@
     <maven.compiler.release>17</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <quarkus.version>3.28.4</quarkus.version>
+    <quarkus.version>3.29.0</quarkus.version>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
     <groovy.version>4.0.28</groovy.version>
     <groovy-maven-plugin.version>4.2.1</groovy-maven-plugin.version>
     <jandex-maven-plugin.version>3.5.2</jandex-maven-plugin.version>
-    <hibernate-orm.version>6.4.0.Final</hibernate-orm.version>
+    <hibernate-orm.version>7.1.4.Final</hibernate-orm.version>
     <docker-maven-plugin.version>0.47.0</docker-maven-plugin.version>
     <exec-maven-plugin.version>3.6.2</exec-maven-plugin.version>
     <assertj.version>3.27.6</assertj.version>

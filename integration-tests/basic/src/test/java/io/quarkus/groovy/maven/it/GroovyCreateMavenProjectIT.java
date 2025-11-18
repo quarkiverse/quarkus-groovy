@@ -31,7 +31,6 @@ import org.apache.maven.shared.invoker.*;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
-import com.google.common.base.Charsets;
 import com.google.common.io.Files;
 
 import io.quarkus.maven.it.QuarkusPlatformAwareMojoTestBase;
@@ -65,7 +64,7 @@ class GroovyCreateMavenProjectIT extends QuarkusPlatformAwareMojoTestBase {
         assertThat(new File(testDir, "src/main/resources/application.properties")).isFile();
 
         String config = Files
-                .asCharSource(new File(testDir, "src/main/resources/application.properties"), Charsets.UTF_8)
+                .asCharSource(new File(testDir, "src/main/resources/application.properties"), StandardCharsets.UTF_8)
                 .read();
         assertThat(config).isEmpty();
 
@@ -95,7 +94,7 @@ class GroovyCreateMavenProjectIT extends QuarkusPlatformAwareMojoTestBase {
         assertThat(model.getProfiles().get(0).getId()).isEqualTo("native");
     }
 
-    private InvocationResult setup(Properties params)
+    private void setup(Properties params)
             throws MavenInvocationException, FileNotFoundException {
 
         params.setProperty("platformGroupId", getBomGroupId());
@@ -114,7 +113,7 @@ class GroovyCreateMavenProjectIT extends QuarkusPlatformAwareMojoTestBase {
                 new PrintStream(new FileOutputStream(log), false, StandardCharsets.UTF_8),
                 InvokerLogger.DEBUG);
         invoker.setLogger(logger);
-        return invoker.execute(request);
+        invoker.execute(request);
     }
 
     private String getExtensionVersion() {
