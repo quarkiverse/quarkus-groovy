@@ -4,7 +4,7 @@
     <parent>
         <groupId>io.quarkiverse.groovy</groupId>
         <artifactId>quarkus-groovy-hibernate-orm-panache-parent</artifactId>
-        <version>999-SNAPSHOT</version>
+        <version>3.30.0</version>
     </parent>
     <artifactId>quarkus-groovy-hibernate-orm-panache</artifactId>
     <name>Quarkus Groovy - Hibernate ORM with Panache - Runtime</name>
