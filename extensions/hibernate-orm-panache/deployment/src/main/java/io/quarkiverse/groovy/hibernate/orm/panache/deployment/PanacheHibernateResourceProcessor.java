@@ -155,7 +155,7 @@ public final class PanacheHibernateResourceProcessor {
         for (EntityToPersistenceUnitBuildItem item : items) {
             map.put(item.getEntityClass(), item.getPersistenceUnitName());
         }
-        recorder.setEntityToPersistenceUnit(map,
+        recorder.addEntityTypesToPersistenceUnit(map,
                 jpaModelPersistenceUnitMapping.map(JpaModelPersistenceUnitMappingBuildItem::isIncomplete)
                         // This happens if there is no persistence unit, in which case we definitely know this metadata is complete.
                         .orElse(false));

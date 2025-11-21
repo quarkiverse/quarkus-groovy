@@ -175,7 +175,7 @@ public final class PanacheHibernateResourceProcessor {
         for (EntityToPersistenceUnitBuildItem item : items) {
             map.put(item.getEntityClass(), item.getPersistenceUnitName());
         }
-        recorder.setEntityToPersistenceUnit(map);
+        recorder.addEntityTypesToPersistenceUnit(map);
     }
 
     @BuildStep
