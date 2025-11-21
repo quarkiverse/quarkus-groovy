@@ -176,6 +176,19 @@
                         </goals>
                         <configuration>
                             <includes>**/*PMT.java</includes>
+                            <!-- Skip the regular tests due to https://github.com/quarkiverse/quarkus-groovy/issues/336 -->
+                            <skipTests>true</skipTests>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>test</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Skip the regular tests due to https://github.com/quarkiverse/quarkus-groovy/issues/336 -->
+                            <skipTests>true</skipTests>
                         </configuration>
                     </execution>
                 </executions>
