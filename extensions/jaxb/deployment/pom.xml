@@ -4,7 +4,7 @@
   <parent>
     <groupId>io.quarkiverse.groovy</groupId>
     <artifactId>quarkus-groovy-jaxb-parent</artifactId>
-    <version>999-SNAPSHOT</version>
+    <version>3.30.1</version>
   </parent>
   <artifactId>quarkus-groovy-jaxb-deployment</artifactId>
   <name>Quarkus Groovy - JAXB - Deployment</name>
