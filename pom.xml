@@ -29,7 +29,7 @@
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <quarkus.platform.version>${quarkus.version}</quarkus.platform.version>
-    <groovy.version>4.0.29</groovy.version>
+    <groovy.version>5.0.3</groovy.version>
     <groovy-maven-plugin.version>4.2.1</groovy-maven-plugin.version>
     <jandex-maven-plugin.version>3.5.3</jandex-maven-plugin.version>
     <hibernate-orm.version>7.1.4.Final</hibernate-orm.version>
