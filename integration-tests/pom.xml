@@ -30,8 +30,20 @@
           </execution>
         </executions>
       </plugin>
+
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <argLine>
+            -Dgroovy.antlr4=true
+            --add-opens java.base/java.lang=ALL-UNNAMED
+            --add-opens java.base/java.util=ALL-UNNAMED
+          </argLine>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
+
   <profiles>
     <profile>
       <id>native-image</id>
@@ -49,6 +61,10 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <skipTests>${native.surefire.skip}</skipTests>
+              <argLine>
+                --add-opens java.base/java.lang=ALL-UNNAMED
+                --add-opens java.base/java.util=ALL-UNNAMED
+              </argLine>
             </configuration>
           </plugin>
           <plugin>
