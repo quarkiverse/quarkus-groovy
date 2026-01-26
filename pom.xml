@@ -35,7 +35,7 @@
     <hibernate-orm.version>7.1.4.Final</hibernate-orm.version>
     <docker-maven-plugin.version>0.48.0</docker-maven-plugin.version>
     <exec-maven-plugin.version>3.6.3</exec-maven-plugin.version>
-    <assertj.version>3.27.6</assertj.version>
+    <assertj.version>3.27.7</assertj.version>
     <script.extension>sh</script.extension>
     <docker-prune.location>${maven.multiModuleProjectDirectory}/.github/docker-prune.${script.extension}</docker-prune.location>
   </properties>
