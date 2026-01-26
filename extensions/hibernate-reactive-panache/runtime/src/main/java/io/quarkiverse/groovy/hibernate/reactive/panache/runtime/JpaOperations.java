@@ -21,11 +21,11 @@ import java.util.Map;
 
 import org.hibernate.reactive.mutiny.Mutiny;
 
-import io.quarkus.hibernate.reactive.panache.common.runtime.AbstractJpaOperations;
+import io.quarkus.hibernate.reactive.panache.common.runtime.AbstractManagedJpaOperations;
 import io.quarkus.panache.common.Parameters;
 import io.smallrye.mutiny.Uni;
 
-public class JpaOperations extends AbstractJpaOperations<PanacheQueryImpl<?>> {
+public class JpaOperations extends AbstractManagedJpaOperations<PanacheQueryImpl<?>> {
 
     public static final JpaOperations INSTANCE = new JpaOperations();
 

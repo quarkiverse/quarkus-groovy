@@ -120,7 +120,7 @@ public final class PanacheHibernateResourceProcessor {
         PanacheJpaRepositoryEnhancer daoEnhancer = new PanacheJpaRepositoryEnhancer(index.getIndex(),
                 GroovyJpaTypeBundle.BUNDLE);
         Set<String> panacheEntities = new HashSet<>();
-        for (ClassInfo classInfo : index.getIndex().getAllKnownImplementors(DOTNAME_PANACHE_REPOSITORY_BASE)) {
+        for (ClassInfo classInfo : index.getIndex().getAllKnownImplementations(DOTNAME_PANACHE_REPOSITORY_BASE)) {
             // Skip PanacheRepository
             if (classInfo.name().equals(DOTNAME_PANACHE_REPOSITORY))
                 continue;

@@ -25,16 +25,13 @@ import io.quarkus.panache.common.deployment.visitors.PanacheRepositoryClassOpera
 
 public class PanacheJpaRepositoryEnhancer extends PanacheRepositoryEnhancer {
 
-    private final TypeBundle typeBundle;
-
-    public PanacheJpaRepositoryEnhancer(IndexView index, TypeBundle typeBundle) {
-        super(index);
-        this.typeBundle = typeBundle;
+    public PanacheJpaRepositoryEnhancer(IndexView index, TypeBundle bundle) {
+        super(index, bundle);
     }
 
     @Override
     public ClassVisitor apply(String className, ClassVisitor outputClassVisitor) {
         return new PanacheRepositoryClassOperationGenerationVisitor(className, outputClassVisitor,
-                this.indexView, typeBundle);
+                this.indexView, bundle);
     }
 }

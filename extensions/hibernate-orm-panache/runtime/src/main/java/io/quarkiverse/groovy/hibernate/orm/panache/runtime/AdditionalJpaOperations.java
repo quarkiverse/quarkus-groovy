@@ -37,7 +37,7 @@ import org.hibernate.metamodel.model.domain.internal.EntityTypeImpl;
 import org.hibernate.query.SelectionQuery;
 
 import io.quarkiverse.groovy.hibernate.orm.panache.PanacheQuery;
-import io.quarkus.hibernate.orm.panache.common.runtime.AbstractJpaOperations;
+import io.quarkus.hibernate.orm.panache.common.runtime.AbstractManagedJpaOperations;
 import io.quarkus.panache.common.Parameters;
 import io.quarkus.panache.common.Sort;
 
@@ -46,7 +46,7 @@ import io.quarkus.panache.common.Sort;
 public class AdditionalJpaOperations {
 
     @SuppressWarnings("rawtypes")
-    public static PanacheQuery<?> find(AbstractJpaOperations<?> jpaOperations, Class<?> entityClass, String query,
+    public static PanacheQuery<?> find(AbstractManagedJpaOperations<?> jpaOperations, Class<?> entityClass, String query,
             String countQuery, Sort sort, Map<String, Object> params) {
         String findQuery = createFindQuery(entityClass, query, jpaOperations.paramCount(params));
         Session session = jpaOperations.getSession(entityClass);
@@ -55,13 +55,13 @@ public class AdditionalJpaOperations {
         return new CustomCountPanacheQuery(session, hibernateQuery, countQuery, params);
     }
 
-    public static PanacheQuery<?> find(AbstractJpaOperations<?> jpaOperations, Class<?> entityClass, String query,
+    public static PanacheQuery<?> find(AbstractManagedJpaOperations<?> jpaOperations, Class<?> entityClass, String query,
             String countQuery, Sort sort, Parameters parameters) {
         return find(jpaOperations, entityClass, query, countQuery, sort, parameters.map());
     }
 
     @SuppressWarnings("rawtypes")
-    public static PanacheQuery<?> find(AbstractJpaOperations<?> jpaOperations, Class<?> entityClass, String query,
+    public static PanacheQuery<?> find(AbstractManagedJpaOperations<?> jpaOperations, Class<?> entityClass, String query,
             String countQuery, Sort sort, Object... params) {
         String findQuery = createFindQuery(entityClass, query, jpaOperations.paramCount(params));
         Session session = jpaOperations.getSession(entityClass);
@@ -70,7 +70,7 @@ public class AdditionalJpaOperations {
         return new CustomCountPanacheQuery(session, hibernateQuery, countQuery, params);
     }
 
-    public static long deleteAllWithCascade(AbstractJpaOperations<?> jpaOperations, Class<?> entityClass) {
+    public static long deleteAllWithCascade(AbstractManagedJpaOperations<?> jpaOperations, Class<?> entityClass) {
         Session session = jpaOperations.getSession(entityClass);
         //detecting the case where there are cascade-delete associations, and do the bulk delete query otherwise.
         if (deleteOnCascadeDetected(jpaOperations, entityClass)) {
@@ -93,7 +93,7 @@ public class AdditionalJpaOperations {
      * @param entityClass
      * @return true if cascading delete is needed. False otherwise
      */
-    private static boolean deleteOnCascadeDetected(AbstractJpaOperations<?> jpaOperations, Class<?> entityClass) {
+    private static boolean deleteOnCascadeDetected(AbstractManagedJpaOperations<?> jpaOperations, Class<?> entityClass) {
         Session session = jpaOperations.getSession(entityClass);
         Metamodel metamodel = session.getMetamodel();
         EntityType<?> entity1 = metamodel.entity(entityClass);
@@ -111,7 +111,7 @@ public class AdditionalJpaOperations {
 
     }
 
-    public static <PanacheQueryType> long deleteWithCascade(AbstractJpaOperations<PanacheQueryType> jpaOperations,
+    public static <PanacheQueryType> long deleteWithCascade(AbstractManagedJpaOperations<PanacheQueryType> jpaOperations,
             Class<?> entityClass, String query, Object... params) {
         Session session = jpaOperations.getSession(entityClass);
         if (deleteOnCascadeDetected(jpaOperations, entityClass)) {
@@ -126,7 +126,7 @@ public class AdditionalJpaOperations {
         return jpaOperations.delete(entityClass, query, params);
     }
 
-    public static <PanacheQueryType> long deleteWithCascade(AbstractJpaOperations<PanacheQueryType> jpaOperations,
+    public static <PanacheQueryType> long deleteWithCascade(AbstractManagedJpaOperations<PanacheQueryType> jpaOperations,
             Class<?> entityClass, String query,
             Map<String, Object> params) {
         Session session = jpaOperations.getSession(entityClass);
@@ -142,7 +142,7 @@ public class AdditionalJpaOperations {
         return jpaOperations.delete(entityClass, query, params);
     }
 
-    public static long deleteWithCascade(AbstractJpaOperations<?> jpaOperations, Class<?> entityClass, String query,
+    public static long deleteWithCascade(AbstractManagedJpaOperations<?> jpaOperations, Class<?> entityClass, String query,
             Parameters params) {
         return deleteWithCascade(jpaOperations, entityClass, query, params.map());
     }

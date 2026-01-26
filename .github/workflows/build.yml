@@ -48,4 +48,4 @@ jobs:
           java-version: ${{ matrix.jdk }}
           cache: 'maven'
       - name: Build
-        run: mvn clean install formatter:validate -Dnative -Dquarkus.native.container-build=true -B
+        run: mvn clean install formatter:validate -Dnative -Dquarkus.native.container-build=true -Dquarkus.native.builder-image=quay.io/quarkus/ubi-quarkus-mandrel-builder-image:jdk-21 -B
