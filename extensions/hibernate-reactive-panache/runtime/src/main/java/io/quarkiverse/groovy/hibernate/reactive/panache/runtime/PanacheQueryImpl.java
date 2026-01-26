@@ -25,20 +25,20 @@ import jakarta.persistence.LockModeType;
 import org.hibernate.reactive.mutiny.Mutiny;
 
 import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheQuery;
-import io.quarkus.hibernate.reactive.panache.common.runtime.CommonPanacheQueryImpl;
+import io.quarkus.hibernate.reactive.panache.common.runtime.CommonManagedPanacheQueryImpl;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Parameters;
 import io.smallrye.mutiny.Uni;
 
 public class PanacheQueryImpl<Entity> implements PanacheQuery<Entity> {
 
-    private final CommonPanacheQueryImpl<Entity> delegate;
+    private final CommonManagedPanacheQueryImpl<Entity> delegate;
 
     PanacheQueryImpl(Uni<Mutiny.Session> em, String query, String originalQuery, String orderBy, Object paramsArrayOrMap) {
-        this.delegate = new CommonPanacheQueryImpl<>(em, query, originalQuery, orderBy, paramsArrayOrMap);
+        this.delegate = new CommonManagedPanacheQueryImpl<>(em, query, originalQuery, orderBy, paramsArrayOrMap);
     }
 
-    protected PanacheQueryImpl(CommonPanacheQueryImpl<Entity> delegate) {
+    protected PanacheQueryImpl(CommonManagedPanacheQueryImpl<Entity> delegate) {
         this.delegate = delegate;
     }
 

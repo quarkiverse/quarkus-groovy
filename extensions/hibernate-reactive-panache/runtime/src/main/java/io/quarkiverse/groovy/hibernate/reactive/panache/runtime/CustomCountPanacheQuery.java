@@ -19,7 +19,7 @@ package io.quarkiverse.groovy.hibernate.reactive.panache.runtime;
 
 import org.hibernate.reactive.mutiny.Mutiny;
 
-import io.quarkus.hibernate.reactive.panache.common.runtime.CommonPanacheQueryImpl;
+import io.quarkus.hibernate.reactive.panache.common.runtime.CommonManagedPanacheQueryImpl;
 import io.smallrye.mutiny.Uni;
 
 //TODO this class is only needed by the Spring Data JPA module and would not be placed there if it weren't for a dev-mode classloader issue
@@ -28,7 +28,7 @@ public class CustomCountPanacheQuery<Entity> extends PanacheQueryImpl<Entity> {
 
     public CustomCountPanacheQuery(Uni<Mutiny.Session> em, String query, String customCountQuery,
             Object paramsArrayOrMap) {
-        super(new CommonPanacheQueryImpl<Entity>(em, query, null, null, paramsArrayOrMap) {
+        super(new CommonManagedPanacheQueryImpl<Entity>(em, query, null, null, paramsArrayOrMap) {
             {
                 this.customCountQueryForSpring = customCountQuery;
             }
