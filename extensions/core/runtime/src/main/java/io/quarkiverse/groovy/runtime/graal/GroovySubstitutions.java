@@ -17,15 +17,16 @@
 package io.quarkiverse.groovy.runtime.graal;
 
 import java.lang.invoke.MethodHandle;
-import java.lang.invoke.MutableCallSite;
-import java.util.function.BiFunction;
+import java.util.concurrent.BlockingQueue;
 
+import org.codehaus.groovy.control.ParserPluginFactory;
 import org.codehaus.groovy.control.SourceUnit;
 import org.codehaus.groovy.runtime.memoize.MemoizeCache;
 import org.codehaus.groovy.vmplugin.v8.CacheableCallSite;
 import org.codehaus.groovy.vmplugin.v8.IndyInterface;
 
 import com.oracle.svm.core.annotate.Alias;
+import com.oracle.svm.core.annotate.RecomputeFieldValue;
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
@@ -50,7 +51,7 @@ final class SubstituteMethodHandleWrapper {
 final class SubstituteIndyFallbackSupplier {
 
     @Alias
-    SubstituteIndyFallbackSupplier(MutableCallSite callSite, Class<?> sender, String methodName, int callID,
+    SubstituteIndyFallbackSupplier(CacheableCallSite callSite, Class<?> sender, String methodName, int callID,
             Boolean safeNavigation, Boolean thisCall, Boolean spreadCall, Object dummyReceiver, Object[] arguments) {
 
     }
@@ -63,6 +64,9 @@ final class SubstituteIndyFallbackSupplier {
 
 @TargetClass(CacheableCallSite.class)
 final class SubstituteCacheableCallSite {
+    @Alias
+    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
+    private static BlockingQueue<Runnable> CACHE_CLEANER_QUEUE = null;
 
     @Alias
     public SubstituteMethodHandleWrapper getAndPut(String className,
@@ -73,6 +77,10 @@ final class SubstituteCacheableCallSite {
     @Alias
     public SubstituteMethodHandleWrapper put(String name, SubstituteMethodHandleWrapper mhw) {
         return null;
+    }
+
+    @Alias
+    private void removeAllStaleEntriesOfLruCache() {
     }
 }
 
@@ -93,90 +101,61 @@ final class SubstituteIndyInterface {
     }
 
     @Alias
-    private static SubstituteMethodHandleWrapper fallback(MutableCallSite callSite, Class<?> sender, String methodName,
+    private static SubstituteMethodHandleWrapper fallback(CacheableCallSite callSite, Class<?> sender, String methodName,
             int callID, Boolean safeNavigation, Boolean thisCall, Boolean spreadCall, Object dummyReceiver,
             Object[] arguments) {
         return null;
     }
 
-    @Alias
-    private static <T> T doWithCallSite(MutableCallSite callSite, Object[] arguments,
-            BiFunction<? super SubstituteCacheableCallSite, ? super Object, ? extends T> f) {
-        return null;
-    }
-
     @Substitute
-    public static Object selectMethod(MutableCallSite callSite, Class<?> sender, String methodName, int callID,
+    public static Object selectMethod(CacheableCallSite callSite, Class<?> sender, String methodName, int callID,
             Boolean safeNavigation, Boolean thisCall, Boolean spreadCall, Object dummyReceiver, Object[] arguments)
             throws Throwable {
         final SubstituteMethodHandleWrapper mhw = fallback(callSite, sender, methodName, callID, safeNavigation, thisCall,
                 spreadCall, dummyReceiver, arguments);
 
-        if (callSite instanceof CacheableCallSite) {
-            CacheableCallSite cacheableCallSite = (CacheableCallSite) callSite;
-
-            final MethodHandle defaultTarget = cacheableCallSite.getDefaultTarget();
-            if (defaultTarget == cacheableCallSite.getTarget()) {
-                // correct the stale methodhandle in the inline cache of callsite
-                // it is important but impacts the performance somehow when cache misses frequently
-                doWithCallSite(callSite, arguments, new ToCacheBiFunction(mhw));
-            }
+        final MethodHandle defaultTarget = callSite.getDefaultTarget();
+        if (defaultTarget == callSite.getTarget()) {
+            // correct the stale methodhandle in the inline cache of callsite
+            // it is important but impacts the performance somehow when cache misses frequently
+            Object receiver = arguments[0];
+            String key = receiver != null ? receiver.getClass().getName() : "org.codehaus.groovy.runtime.NullObject";
+            SubstituteCacheableCallSite cs = (SubstituteCacheableCallSite) (Object) callSite;
+            cs.put(key, mhw);
         }
 
         return mhw.getCachedMethodHandle().invokeExact(arguments);
     }
 
     @Substitute
-    public static Object fromCache(MutableCallSite callSite, Class<?> sender, String methodName, int callID,
+    public static Object fromCache(CacheableCallSite callSite, Class<?> sender, String methodName, int callID,
             Boolean safeNavigation, Boolean thisCall, Boolean spreadCall, Object dummyReceiver, Object[] arguments)
             throws Throwable {
         SubstituteIndyFallbackSupplier fallbackSupplier = new SubstituteIndyFallbackSupplier(callSite, sender, methodName,
                 callID, safeNavigation, thisCall, spreadCall, dummyReceiver, arguments);
 
-        SubstituteMethodHandleWrapper mhw = bypassCache(spreadCall, arguments)
-                ? NULL_METHOD_HANDLE_WRAPPER
-                : doWithCallSite(
-                        callSite, arguments,
-                        new FromCacheBiFunction(fallbackSupplier));
+        SubstituteMethodHandleWrapper mhw;
+        if (bypassCache(spreadCall, arguments)) {
+            mhw = NULL_METHOD_HANDLE_WRAPPER;
+        } else {
+            Object receiver = arguments[0];
+            String receiverClassName = receiver != null ? receiver.getClass().getName()
+                    : "org.codehaus.groovy.runtime.NullObject";
+            SubstituteCacheableCallSite cs = (SubstituteCacheableCallSite) (Object) callSite;
+            mhw = cs.getAndPut(receiverClassName, new MemoizeCache.ValueProvider<String, SubstituteMethodHandleWrapper>() {
+                @Override
+                public SubstituteMethodHandleWrapper provide(String key) {
+                    SubstituteMethodHandleWrapper fbMhw = fallbackSupplier.get();
+                    return fbMhw.isCanSetTarget() ? fbMhw : NULL_METHOD_HANDLE_WRAPPER;
+                }
+            });
+        }
 
         if (NULL_METHOD_HANDLE_WRAPPER == mhw) {
             mhw = fallbackSupplier.get();
         }
 
         return mhw.getCachedMethodHandle().invokeExact(arguments);
-    }
-
-    static class ToCacheBiFunction implements BiFunction<SubstituteCacheableCallSite, Object, SubstituteMethodHandleWrapper> {
-
-        private final SubstituteMethodHandleWrapper mhw;
-
-        ToCacheBiFunction(SubstituteMethodHandleWrapper mhw) {
-            this.mhw = mhw;
-        }
-
-        @Override
-        public SubstituteMethodHandleWrapper apply(SubstituteCacheableCallSite cs, Object receiver) {
-            return cs.put(receiver.getClass().getName(), mhw);
-        }
-    }
-
-    static class FromCacheBiFunction implements BiFunction<SubstituteCacheableCallSite, Object, SubstituteMethodHandleWrapper> {
-
-        private final SubstituteIndyFallbackSupplier fallbackSupplier;
-
-        FromCacheBiFunction(SubstituteIndyFallbackSupplier fallbackSupplier) {
-            this.fallbackSupplier = fallbackSupplier;
-        }
-
-        @Override
-        public SubstituteMethodHandleWrapper apply(SubstituteCacheableCallSite cs, Object receiver) {
-            return cs.getAndPut(
-                    receiver.getClass().getName(),
-                    c -> {
-                        SubstituteMethodHandleWrapper fbMhw = fallbackSupplier.get();
-                        return fbMhw.isCanSetTarget() ? fbMhw : NULL_METHOD_HANDLE_WRAPPER;
-                    });
-        }
     }
 }
 
@@ -186,5 +165,13 @@ final class SubstituteSourceUnit {
     @Substitute
     public void convert() {
         throw new UnsupportedOperationException("convert is not supported");
+    }
+}
+
+@TargetClass(ParserPluginFactory.class)
+final class SubstituteParserPluginFactory {
+    @Substitute
+    public static ParserPluginFactory antlr4() {
+        throw new UnsupportedOperationException("Antlr4 parsing is not supported at runtime in native mode");
     }
 }

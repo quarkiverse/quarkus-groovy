@@ -21,7 +21,7 @@ import io.strimzi.test.container.StrimziKafkaContainer
 
 class KafkaTestResource implements QuarkusTestResourceLifecycleManager {
 
-    private StrimziKafkaContainer kafka = new StrimziKafkaContainer()
+    private StrimziKafkaContainer kafka = new StrimziKafkaContainer().withNodeId(1)
 
     String getBootstrapServers() {
         kafka.getBootstrapServers()

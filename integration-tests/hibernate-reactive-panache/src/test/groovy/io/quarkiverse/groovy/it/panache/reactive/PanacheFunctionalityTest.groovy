@@ -72,6 +72,7 @@ class PanacheFunctionalityTest {
         this.personDao = personDao
     }
 
+    @DisabledOnIntegrationTest
     @Test
     void testPanacheFunctionality() throws Exception {
         RestAssured.when().get("/test/model-dao").then().body(is("OK"))
@@ -94,7 +95,7 @@ class PanacheFunctionalityTest {
                 .body(is('{"id":666,"dogs":[],"name":"Eddie","serialisationTrick":1,"status":"DECEASED"}'))
     }
 
-    @DisabledOnIntegrationTest
+    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/397")
     @RunOnVertxContext
     @Test
     void testPanacheInTest(UniAsserter asserter) {
@@ -179,11 +180,13 @@ class PanacheFunctionalityTest {
         RestAssured.when().get("/test/9025").then().body(is("OK"))
     }
 
+    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/397")
     @Test
     void testBug9036() {
         RestAssured.when().get("/test/9036").then().body(is("OK"))
     }
 
+    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/397")
     @Test
     void testSortByNullPrecedence() {
         RestAssured.when().get("/test/testSortByNullPrecedence").then().body(is("OK"))

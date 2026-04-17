@@ -21,7 +21,7 @@ dependencies {
     implementation 'io.quarkus:quarkus-arc'
     implementation "io.quarkiverse.groovy:quarkus-groovy:${version}"
 
-    testImplementation 'io.quarkus:quarkus-junit5'
+    testImplementation 'io.quarkus:quarkus-junit'
     testImplementation 'io.rest-assured:rest-assured'
 }
 
