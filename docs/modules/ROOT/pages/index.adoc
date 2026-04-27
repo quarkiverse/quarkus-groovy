@@ -320,7 +320,7 @@ This extension allows you to automatically configure JUnit 5 to be used in nativ
 
 If you want to use this extension, you need to add the `io.quarkiverse.groovy:quarkus-groovy-junit5` extension first to your build file.
 
-NOTE: The extension `io.quarkiverse.groovy:quarkus-groovy` and the artifact `io.quarkus:quarkus-junit5` are part of the dependencies of this extension.
+NOTE: The extension `io.quarkiverse.groovy:quarkus-groovy` and the artifact `io.quarkus:quarkus-junit` are part of the dependencies of this extension.
 
 ==== With Maven
 

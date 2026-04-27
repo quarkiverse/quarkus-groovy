@@ -43,31 +43,15 @@ import io.quarkus.deployment.builditem.ServiceStartBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
 import io.quarkus.deployment.pkg.steps.NativeBuild;
-import io.quarkus.jackson.spi.ClassPathJacksonModuleBuildItem;
 
 class GroovyProcessor {
 
     private static final String FEATURE = "groovy";
-    private static final String GROOVY_JACKSON_MODULE = "com.fasterxml.jackson.module.groovy.GroovyModule";
     private static final String DGM_FORMAT_NAME = "org.codehaus.groovy.runtime.dgm$%d";
 
     @BuildStep
     FeatureBuildItem feature() {
         return new FeatureBuildItem(FEATURE);
-    }
-
-    /*
-     * Register the Groovy Jackson module if that has been added to the classpath
-     * Producing the BuildItem is entirely safe since if quarkus-jackson is not on the classpath
-     * the BuildItem will just be ignored
-     */
-    @BuildStep
-    void registerGroovyJacksonModule(BuildProducer<ClassPathJacksonModuleBuildItem> classPathJacksonModules) {
-        if (!QuarkusClassLoader.isClassPresentAtRuntime(GROOVY_JACKSON_MODULE)) {
-            return;
-        }
-
-        classPathJacksonModules.produce(new ClassPathJacksonModuleBuildItem(GROOVY_JACKSON_MODULE));
     }
 
     /*
