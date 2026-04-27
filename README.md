@@ -1,6 +1,6 @@
 # Quarkus Groovy
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 [![Build](https://github.com/quarkiverse/quarkus-groovy/actions/workflows/build.yml/badge.svg?branch=main)](https://github.com/quarkiverse/quarkus-groovy/actions?query=workflow%3ABuild)
@@ -75,6 +75,7 @@ This project follows the [all-contributors](https://github.com/all-contributors/
       <td align="center" valign="top" width="14.28%"><a href="http://gastaldi.wordpress.com"><img src="https://avatars.githubusercontent.com/u/54133?v=4?s=100" width="100px;" alt="George Gastaldi"/><br /><sub><b>George Gastaldi</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-groovy/commits?author=gastaldi" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://hollycummins.com"><img src="https://avatars.githubusercontent.com/u/11509290?v=4?s=100" width="100px;" alt="Holly Cummins"/><br /><sub><b>Holly Cummins</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-groovy/commits?author=holly-cummins" title="Documentation">📖</a> <a href="https://github.com/quarkiverse/quarkus-groovy/commits?author=holly-cummins" title="Code">💻</a></td>
       <td align="center" valign="top" width="14.28%"><a href="http://melloware.com"><img src="https://avatars.githubusercontent.com/u/4399574?v=4?s=100" width="100px;" alt="Melloware"/><br /><sub><b>Melloware</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-groovy/commits?author=melloware" title="Documentation">📖</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://jamesnetherton.github.io/"><img src="https://avatars.githubusercontent.com/u/4721408?v=4?s=100" width="100px;" alt="James Netherton"/><br /><sub><b>James Netherton</b></sub></a><br /><a href="https://github.com/quarkiverse/quarkus-groovy/commits?author=jamesnetherton" title="Code">💻</a></td>
     </tr>
   </tbody>
 </table>
