@@ -18,6 +18,7 @@ package io.quarkiverse.groovy.runtime.graal;
 
 import java.lang.invoke.MethodHandle;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.codehaus.groovy.control.ParserPluginFactory;
 import org.codehaus.groovy.control.SourceUnit;
@@ -65,8 +66,8 @@ final class SubstituteIndyFallbackSupplier {
 @TargetClass(CacheableCallSite.class)
 final class SubstituteCacheableCallSite {
     @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.FromAlias)
-    private static BlockingQueue<Runnable> CACHE_CLEANER_QUEUE = null;
+    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.NewInstance, declClass = LinkedBlockingQueue.class)
+    private static BlockingQueue<Runnable> CACHE_CLEANER_QUEUE;
 
     @Alias
     public SubstituteMethodHandleWrapper getAndPut(String className,
@@ -77,10 +78,6 @@ final class SubstituteCacheableCallSite {
     @Alias
     public SubstituteMethodHandleWrapper put(String name, SubstituteMethodHandleWrapper mhw) {
         return null;
-    }
-
-    @Alias
-    private void removeAllStaleEntriesOfLruCache() {
     }
 }
 
