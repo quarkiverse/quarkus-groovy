@@ -24,19 +24,21 @@ import java.util.stream.Stream;
 
 import jakarta.persistence.LockModeType;
 
-import org.hibernate.Session;
+import org.hibernate.SharedSessionContract;
 
 import io.quarkiverse.groovy.hibernate.orm.panache.PanacheQuery;
 import io.quarkus.hibernate.orm.panache.common.runtime.CommonPanacheQueryImpl;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Parameters;
+import io.quarkus.panache.common.Sort;
 
 public class PanacheQueryImpl<Entity> implements PanacheQuery<Entity> {
 
     private final CommonPanacheQueryImpl<Entity> delegate;
 
-    PanacheQueryImpl(Session session, String query, String originalQuery, String orderBy, Object paramsArrayOrMap) {
-        this.delegate = new CommonPanacheQueryImpl<>(session, query, originalQuery, orderBy, paramsArrayOrMap);
+    PanacheQueryImpl(SharedSessionContract session, Class<?> entityClass, String query, String originalQuery, Sort sort,
+            Object paramsArrayOrMap) {
+        this.delegate = new CommonPanacheQueryImpl<>(session, entityClass, query, originalQuery, sort, paramsArrayOrMap);
     }
 
     protected PanacheQueryImpl(CommonPanacheQueryImpl<Entity> delegate) {

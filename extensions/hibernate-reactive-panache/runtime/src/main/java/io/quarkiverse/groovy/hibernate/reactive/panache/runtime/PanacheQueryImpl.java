@@ -28,14 +28,17 @@ import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheQuery;
 import io.quarkus.hibernate.reactive.panache.common.runtime.CommonManagedPanacheQueryImpl;
 import io.quarkus.panache.common.Page;
 import io.quarkus.panache.common.Parameters;
+import io.quarkus.panache.common.Sort;
 import io.smallrye.mutiny.Uni;
 
 public class PanacheQueryImpl<Entity> implements PanacheQuery<Entity> {
 
     private final CommonManagedPanacheQueryImpl<Entity> delegate;
 
-    PanacheQueryImpl(Uni<Mutiny.Session> em, String query, String originalQuery, String orderBy, Object paramsArrayOrMap) {
-        this.delegate = new CommonManagedPanacheQueryImpl<>(em, query, originalQuery, orderBy, paramsArrayOrMap);
+    PanacheQueryImpl(Uni<Mutiny.Session> em, Class<?> entityClass, String query, String originalQuery, Sort sort,
+            Object paramsArrayOrMap) {
+        this.delegate = new CommonManagedPanacheQueryImpl<>(em, entityClass, query, originalQuery, sort,
+                paramsArrayOrMap);
     }
 
     protected PanacheQueryImpl(CommonManagedPanacheQueryImpl<Entity> delegate) {
