@@ -22,7 +22,7 @@
   </scm>
   <properties>
     <compiler-plugin.version>3.11.0</compiler-plugin.version>
-    <maven.compiler.release>17</maven.compiler.release>
+    <maven.compiler.release>21</maven.compiler.release>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.version>3.39.0</quarkus.version>
@@ -37,10 +37,21 @@
     <exec-maven-plugin.version>3.6.3</exec-maven-plugin.version>
     <assertj.version>3.27.7</assertj.version>
     <script.extension>sh</script.extension>
+    <graal-sdk.version>25.3.4.1</graal-sdk.version>
     <docker-prune.location>${maven.multiModuleProjectDirectory}/.github/docker-prune.${script.extension}</docker-prune.location>
   </properties>
   <dependencyManagement>
     <dependencies>
+      <dependency>
+        <groupId>org.graalvm.sdk</groupId>
+        <artifactId>graal-sdk</artifactId>
+        <version>${graal-sdk.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.graalvm.sdk</groupId>
+        <artifactId>nativeimage</artifactId>
+        <version>${graal-sdk.version}</version>
+      </dependency>
       <dependency>
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-bom</artifactId>
