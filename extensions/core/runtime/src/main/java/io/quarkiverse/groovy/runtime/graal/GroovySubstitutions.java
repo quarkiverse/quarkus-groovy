@@ -37,7 +37,7 @@ final class GroovySubstitutions {
 @TargetClass(className = "org.codehaus.groovy.vmplugin.v8.MethodHandleWrapper")
 final class SubstituteMethodHandleWrapper {
 
-    @Substitute
+    @Alias
     public boolean isCanSetTarget() {
         return false;
     }
@@ -68,6 +68,19 @@ final class SubstituteCacheableCallSite {
     @Alias
     @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.NewInstance, declClass = LinkedBlockingQueue.class)
     private static BlockingQueue<Runnable> CACHE_CLEANER_QUEUE;
+
+    @Alias
+    MethodHandle target;
+
+    @Alias
+    public void setDefaultTarget(MethodHandle newTarget) {
+    }
+
+    @Substitute
+    public void setTarget(MethodHandle newTarget) {
+        this.target = newTarget;
+        setDefaultTarget(newTarget);
+    }
 
     @Alias
     public SubstituteMethodHandleWrapper getAndPut(String className,
