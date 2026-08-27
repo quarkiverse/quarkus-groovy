@@ -37,7 +37,7 @@ final class GroovySubstitutions {
 @TargetClass(className = "org.codehaus.groovy.vmplugin.v8.MethodHandleWrapper")
 final class SubstituteMethodHandleWrapper {
 
-    @Alias
+    @Substitute
     public boolean isCanSetTarget() {
         return false;
     }
