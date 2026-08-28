@@ -16,7 +16,10 @@
  */
 package io.quarkiverse.groovy.runtime.graal;
 
+import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MutableCallSite;
+import java.lang.reflect.Field;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -32,6 +35,19 @@ import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
 final class GroovySubstitutions {
+}
+
+final class CallSiteTargetFieldHolder {
+    static final Field FIELD;
+
+    static {
+        try {
+            FIELD = CallSite.class.getDeclaredField("target");
+            FIELD.setAccessible(true);
+        } catch (ReflectiveOperationException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
 }
 
 @TargetClass(className = "org.codehaus.groovy.vmplugin.v8.MethodHandleWrapper")
@@ -60,6 +76,19 @@ final class SubstituteIndyFallbackSupplier {
     @Alias
     SubstituteMethodHandleWrapper get() {
         return null;
+    }
+}
+
+@TargetClass(MutableCallSite.class)
+final class SubstituteMutableCallSite {
+
+    @Substitute
+    public void setTarget(MethodHandle newTarget) {
+        try {
+            CallSiteTargetFieldHolder.FIELD.set(this, newTarget);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
 
