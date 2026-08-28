@@ -18,6 +18,7 @@ package io.quarkiverse.groovy.runtime.graal;
 
 import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MutableCallSite;
 import java.lang.reflect.Field;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -78,15 +79,8 @@ final class SubstituteIndyFallbackSupplier {
     }
 }
 
-@TargetClass(CacheableCallSite.class)
-final class SubstituteCacheableCallSite {
-    @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.NewInstance, declClass = LinkedBlockingQueue.class)
-    private static BlockingQueue<Runnable> CACHE_CLEANER_QUEUE;
-
-    @Alias
-    public void setDefaultTarget(MethodHandle newTarget) {
-    }
+@TargetClass(MutableCallSite.class)
+final class SubstituteMutableCallSite {
 
     @Substitute
     public void setTarget(MethodHandle newTarget) {
@@ -95,8 +89,14 @@ final class SubstituteCacheableCallSite {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        setDefaultTarget(newTarget);
     }
+}
+
+@TargetClass(CacheableCallSite.class)
+final class SubstituteCacheableCallSite {
+    @Alias
+    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.NewInstance, declClass = LinkedBlockingQueue.class)
+    private static BlockingQueue<Runnable> CACHE_CLEANER_QUEUE;
 
     @Alias
     public SubstituteMethodHandleWrapper getAndPut(String className,
