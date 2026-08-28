@@ -16,7 +16,9 @@
  */
 package io.quarkiverse.groovy.runtime.graal;
 
+import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandle;
+import java.lang.reflect.Field;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -32,6 +34,19 @@ import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
 final class GroovySubstitutions {
+}
+
+final class CallSiteTargetFieldHolder {
+    static final Field FIELD;
+
+    static {
+        try {
+            FIELD = CallSite.class.getDeclaredField("target");
+            FIELD.setAccessible(true);
+        } catch (ReflectiveOperationException e) {
+            throw new ExceptionInInitializerError(e);
+        }
+    }
 }
 
 @TargetClass(className = "org.codehaus.groovy.vmplugin.v8.MethodHandleWrapper")
@@ -70,15 +85,16 @@ final class SubstituteCacheableCallSite {
     private static BlockingQueue<Runnable> CACHE_CLEANER_QUEUE;
 
     @Alias
-    MethodHandle target;
-
-    @Alias
     public void setDefaultTarget(MethodHandle newTarget) {
     }
 
     @Substitute
     public void setTarget(MethodHandle newTarget) {
-        this.target = newTarget;
+        try {
+            CallSiteTargetFieldHolder.FIELD.set(this, newTarget);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
         setDefaultTarget(newTarget);
     }
 
