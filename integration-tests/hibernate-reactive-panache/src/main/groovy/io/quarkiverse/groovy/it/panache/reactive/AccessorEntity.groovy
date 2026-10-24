@@ -44,8 +44,6 @@ class AccessorEntity extends GenericEntity<Integer> {
 
     void method() {
         // touch some fields
-        // https://issues.apache.org/jira/browse/GROOVY-11831
-        // @SuppressWarnings("unused")
         byte b2 = b
         i = 2
         t = 1
