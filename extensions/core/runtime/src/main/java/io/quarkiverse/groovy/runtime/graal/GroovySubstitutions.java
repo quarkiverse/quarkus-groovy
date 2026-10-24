@@ -21,8 +21,6 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 import java.lang.invoke.MutableCallSite;
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 
 import org.codehaus.groovy.GroovyBugError;
 import org.codehaus.groovy.control.ParserPluginFactory;
@@ -33,7 +31,6 @@ import org.codehaus.groovy.vmplugin.v8.CacheableCallSite;
 import org.codehaus.groovy.vmplugin.v8.IndyInterface;
 
 import com.oracle.svm.core.annotate.Alias;
-import com.oracle.svm.core.annotate.RecomputeFieldValue;
 import com.oracle.svm.core.annotate.Substitute;
 import com.oracle.svm.core.annotate.TargetClass;
 
@@ -82,10 +79,6 @@ final class SubstituteCallSite {
 
 @TargetClass(CacheableCallSite.class)
 final class SubstituteCacheableCallSite {
-    @Alias
-    @RecomputeFieldValue(kind = RecomputeFieldValue.Kind.NewInstance, declClass = LinkedBlockingQueue.class)
-    private static BlockingQueue<Runnable> CACHE_CLEANER_QUEUE;
-
     @Alias
     public SubstituteMethodHandleWrapper getAndPut(String className,
             MemoizeCache.ValueProvider<? super String, ? extends SubstituteMethodHandleWrapper> valueProvider) {
