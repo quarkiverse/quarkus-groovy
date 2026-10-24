@@ -52,4 +52,8 @@ jobs:
           java-version: ${{ matrix.jdk }}
           cache: 'maven'
       - name: Build
+        if: ${{ matrix.jdk == '17' }}
         run: mvn clean install formatter:validate -Dnative -Dquarkus.native.container-build=true -Dquarkus.native.builder-image=quay.io/quarkus/ubi-quarkus-mandrel-builder-image:jdk-25 -B
+      - name: Build
+        if: ${{ matrix.jdk != '17' }}
+        run: mvn clean install formatter:validate -B
