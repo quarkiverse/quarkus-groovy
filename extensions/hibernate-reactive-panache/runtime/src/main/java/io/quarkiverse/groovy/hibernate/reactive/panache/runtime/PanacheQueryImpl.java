@@ -54,43 +54,43 @@ public class PanacheQueryImpl<Entity> implements PanacheQuery<Entity> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public <T extends Entity> PanacheQuery<T> page(Page page) {
+    public PanacheQuery<Entity> page(Page page) {
         delegate.page(page);
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> page(int pageIndex, int pageSize) {
+    public PanacheQuery<Entity> page(int pageIndex, int pageSize) {
         delegate.page(pageIndex, pageSize);
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> nextPage() {
+    public PanacheQuery<Entity> nextPage() {
         delegate.nextPage();
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> previousPage() {
+    public PanacheQuery<Entity> previousPage() {
         delegate.previousPage();
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> firstPage() {
+    public PanacheQuery<Entity> firstPage() {
         delegate.firstPage();
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> Uni<PanacheQuery<T>> lastPage() {
-        return delegate.lastPage().map(v -> (PanacheQuery<T>) this);
+    public Uni<PanacheQuery<Entity>> lastPage() {
+        return delegate.lastPage().map(v -> this);
     }
 
     @Override
@@ -115,44 +115,44 @@ public class PanacheQueryImpl<Entity> implements PanacheQuery<Entity> {
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> range(int startIndex, int lastIndex) {
+    public PanacheQuery<Entity> range(int startIndex, int lastIndex) {
         delegate.range(startIndex, lastIndex);
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> withLock(LockModeType lockModeType) {
+    public PanacheQuery<Entity> withLock(LockModeType lockModeType) {
         delegate.withLock(lockModeType);
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> withHint(String hintName, Object value) {
+    public PanacheQuery<Entity> withHint(String hintName, Object value) {
         delegate.withHint(hintName, value);
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> filter(String filterName, Parameters parameters) {
+    public PanacheQuery<Entity> filter(String filterName, Parameters parameters) {
         delegate.filter(filterName, parameters.map());
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> filter(String filterName, Map<String, Object> parameters) {
+    public PanacheQuery<Entity> filter(String filterName, Map<String, Object> parameters) {
         delegate.filter(filterName, parameters);
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    public <T extends Entity> PanacheQuery<T> filter(String filterName) {
+    public PanacheQuery<Entity> filter(String filterName) {
         delegate.filter(filterName, Collections.emptyMap());
-        return (PanacheQuery<T>) this;
+        return this;
     }
 
     // Results
@@ -163,17 +163,17 @@ public class PanacheQueryImpl<Entity> implements PanacheQuery<Entity> {
     }
 
     @Override
-    public <T extends Entity> Uni<List<T>> list() {
+    public Uni<List<Entity>> list() {
         return delegate.list();
     }
 
     @Override
-    public <T extends Entity> Uni<T> firstResult() {
+    public Uni<Entity> firstResult() {
         return delegate.firstResult();
     }
 
     @Override
-    public <T extends Entity> Uni<T> singleResult() {
+    public Uni<Entity> singleResult() {
         return delegate.singleResult();
     }
 }
