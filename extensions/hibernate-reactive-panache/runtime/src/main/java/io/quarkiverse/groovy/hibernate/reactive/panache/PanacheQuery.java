@@ -83,7 +83,7 @@ public interface PanacheQuery<Entity> {
      * @see #page(int, int)
      * @see #page()
      */
-    <T extends Entity> PanacheQuery<T> page(Page page);
+    PanacheQuery<Entity> page(Page page);
 
     /**
      * Sets the current page.
@@ -94,7 +94,7 @@ public interface PanacheQuery<Entity> {
      * @see #page(Page)
      * @see #page()
      */
-    <T extends Entity> PanacheQuery<T> page(int pageIndex, int pageSize);
+    PanacheQuery<Entity> page(int pageIndex, int pageSize);
 
     /**
      * Sets the current page to the next page
@@ -103,7 +103,7 @@ public interface PanacheQuery<Entity> {
      * @throws UnsupportedOperationException if a page hasn't been set or if a range is already set
      * @see #previousPage()
      */
-    <T extends Entity> PanacheQuery<T> nextPage();
+    PanacheQuery<Entity> nextPage();
 
     /**
      * Sets the current page to the previous page (or the first page if there is no previous page)
@@ -112,7 +112,7 @@ public interface PanacheQuery<Entity> {
      * @throws UnsupportedOperationException if a page hasn't been set or if a range is already set
      * @see #nextPage()
      */
-    <T extends Entity> PanacheQuery<T> previousPage();
+    PanacheQuery<Entity> previousPage();
 
     /**
      * Sets the current page to the first page
@@ -121,7 +121,7 @@ public interface PanacheQuery<Entity> {
      * @throws UnsupportedOperationException if a page hasn't been set or if a range is already set
      * @see #lastPage()
      */
-    <T extends Entity> PanacheQuery<T> firstPage();
+    PanacheQuery<Entity> firstPage();
 
     /**
      * Sets the current page to the last page. This will cause reading of the entity count.
@@ -132,7 +132,7 @@ public interface PanacheQuery<Entity> {
      * @see #count()
      */
     @CheckReturnValue
-    <T extends Entity> Uni<PanacheQuery<T>> lastPage();
+    Uni<PanacheQuery<Entity>> lastPage();
 
     /**
      * Returns true if there is another page to read after the current one.
@@ -183,7 +183,7 @@ public interface PanacheQuery<Entity> {
      * @param lastIndex the index of the last element
      * @return this query, modified
      */
-    <T extends Entity> PanacheQuery<T> range(int startIndex, int lastIndex);
+    PanacheQuery<Entity> range(int startIndex, int lastIndex);
 
     /**
      * Define the locking strategy used for this query.
@@ -191,7 +191,7 @@ public interface PanacheQuery<Entity> {
      * @param lockModeType the locking strategy to be used for this query.
      * @return this query, modified
      */
-    <T extends Entity> PanacheQuery<T> withLock(LockModeType lockModeType);
+    PanacheQuery<Entity> withLock(LockModeType lockModeType);
 
     /**
      * Set a query property or hint on the underlying JPA Query.
@@ -200,7 +200,7 @@ public interface PanacheQuery<Entity> {
      * @param value value for the property or hint.
      * @return this query, modified
      */
-    <T extends Entity> PanacheQuery<T> withHint(String hintName, Object value);
+    PanacheQuery<Entity> withHint(String hintName, Object value);
 
     /**
      * <p>
@@ -216,7 +216,7 @@ public interface PanacheQuery<Entity> {
      * @param parameters The set of parameters for the filter, if the filter requires parameters
      * @return this query, modified
      */
-    <T extends Entity> PanacheQuery<T> filter(String filterName, Parameters parameters);
+    PanacheQuery<Entity> filter(String filterName, Parameters parameters);
 
     /**
      * <p>
@@ -232,7 +232,7 @@ public interface PanacheQuery<Entity> {
      * @param parameters The set of parameters for the filter, if the filter requires parameters
      * @return this query, modified
      */
-    <T extends Entity> PanacheQuery<T> filter(String filterName, Map<String, Object> parameters);
+    PanacheQuery<Entity> filter(String filterName, Map<String, Object> parameters);
 
     /**
      * <p>
@@ -247,7 +247,7 @@ public interface PanacheQuery<Entity> {
      * @param filterName The name of the filter to enable
      * @return this query, modified
      */
-    <T extends Entity> PanacheQuery<T> filter(String filterName);
+    PanacheQuery<Entity> filter(String filterName);
 
     // Results
 
@@ -269,7 +269,7 @@ public interface PanacheQuery<Entity> {
      * @see #page()
      */
     @CheckReturnValue
-    <T extends Entity> Uni<List<T>> list();
+    Uni<List<Entity>> list();
 
     /**
      * Returns the first result of the current page index. This ignores the current page size to fetch
@@ -279,7 +279,7 @@ public interface PanacheQuery<Entity> {
      * @see #singleResult()
      */
     @CheckReturnValue
-    <T extends Entity> Uni<T> firstResult();
+    Uni<Entity> firstResult();
 
     /**
      * Executes this query for the current page and return a single result.
@@ -290,5 +290,5 @@ public interface PanacheQuery<Entity> {
      * @see #firstResult()
      */
     @CheckReturnValue
-    <T extends Entity> Uni<T> singleResult();
+    Uni<Entity> singleResult();
 }

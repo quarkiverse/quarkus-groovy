@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull
 
 import jakarta.json.bind.Jsonb
 import jakarta.json.bind.JsonbBuilder
-import jakarta.persistence.PersistenceException
 
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.MethodOrderer.OrderAnnotation
@@ -70,7 +69,6 @@ class PanacheFunctionalityTest {
         this.personDao = personDao
     }
 
-    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/336")
     @Test
     void testPanacheFunctionality() throws Exception {
         RestAssured.when().get("/test/model-dao").then().body(is("OK"))
@@ -175,13 +173,11 @@ class PanacheFunctionalityTest {
         RestAssured.when().get("/test/9025").then().body(is("OK"))
     }
 
-    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/336")
     @Test
     void testBug9036() {
         RestAssured.when().get("/test/9036").then().body(is("OK"))
     }
 
-    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/336")
     @Test
     void testSortByNullPrecedence() {
         RestAssured.when().get("/test/testSortByNullPrecedence").then().body(is("OK"))
@@ -326,6 +322,7 @@ class PanacheFunctionalityTest {
     @Test
     @Order(300)
     void testPersistenceException(UniAsserter asserter) {
-        asserter.assertFailedWith({ Panache.withTransaction({ new Person().delete() }) }, PersistenceException.class)
+        // This used to throw PersistenceException, see https://github.com/hibernate/hibernate-reactive/commit/10b0d421ae6a554528f1239ad74cde5a4400bf5d
+        asserter.assertFailedWith({ Panache.withTransaction({ new Person().delete() }) }, IllegalArgumentException.class)
     }
 }
