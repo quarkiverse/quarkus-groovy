@@ -41,6 +41,7 @@ import org.junit.jupiter.api.Assertions
 
 import io.quarkiverse.groovy.hibernate.reactive.panache.Panache
 import io.quarkiverse.groovy.hibernate.reactive.panache.PanacheQuery
+import io.quarkus.hibernate.reactive.panache.common.WithSession
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction
 import io.quarkus.panache.common.Page
 import io.quarkus.panache.common.Parameters
@@ -1437,8 +1438,6 @@ class TestEndpoint {
 
         // Now check that accessors are called
         AccessorEntity entity = new AccessorEntity()
-        // https://issues.apache.org/jira/browse/GROOVY-11831
-        // @SuppressWarnings("unused")
         byte b = entity.b
         Assertions.assertEquals(1, entity.getBCalls)
         entity.i = 2
@@ -1623,15 +1622,15 @@ class TestEndpoint {
                                 count -> Assertions.assertEquals(1L, count)
                             }
                 }
-//                .invoke {
-//                    PanacheQueryException exception = Assertions.assertThrows(PanacheQueryException.class,
-//                            {
-//                                catRepository.find("select new FakeClass('fake_cat', 'fake_owner', 12.5) from Cat c")
-//                                        .project(CatProjectionBean.class)
-//                            })
-//                    Assertions.assertTrue(
-//                            exception.getMessage().startsWith("Unable to perform a projection on a 'select new' query"))
-//                }
+                .invoke {
+                    PanacheQueryException exception = Assertions.assertThrows(PanacheQueryException.class,
+                            {
+                                catRepository.find("select new FakeClass('fake_cat', 'fake_owner', 12.5) from Cat c")
+                                        .project(CatProjectionBean.class)
+                            })
+                    Assertions.assertTrue(
+                            exception.getMessage().startsWith("Unable to perform a projection on a 'select new' query"))
+                }
                 .flatMap {
                     catRepository
                             .find("   SELECT   disTINct  'GARFIELD', 'JoN ArBuCkLe' from Cat c where name = :NamE group by name  ",
@@ -1658,8 +1657,7 @@ class TestEndpoint {
                     personDao.findAll().<Person> firstResult()
                 })
                 .flatMap({ person ->
-                    // TODO: Fix behavior change since Quarkus 3.26.0 ref https://github.com/quarkiverse/quarkus-groovy/issues/296
-                    //Assertions.assertEquals("2", person.name)
+                    Assertions.assertEquals("2", person.name)
 
                     dogDao.deleteAll()
                 }).flatMap({ personDao.deleteAll() })
@@ -1694,6 +1692,7 @@ class TestEndpoint {
     @Inject
     Bug5274EntityRepository bug5274EntityRepository
 
+    @WithSession
     @GET
     @Path("5274")
     Uni<String> testBug5274() {
@@ -1704,6 +1703,7 @@ class TestEndpoint {
     @Inject
     Bug5885EntityRepository bug5885EntityRepository
 
+    @WithSession
     @GET
     @Path("5885")
     Uni<String> testBug5885() {

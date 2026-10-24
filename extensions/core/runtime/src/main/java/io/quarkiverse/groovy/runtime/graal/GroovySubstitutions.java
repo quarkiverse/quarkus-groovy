@@ -16,12 +16,18 @@
  */
 package io.quarkiverse.groovy.runtime.graal;
 
+import java.lang.invoke.CallSite;
 import java.lang.invoke.MethodHandle;
+import java.lang.invoke.MethodHandles;
+import java.lang.invoke.MethodType;
+import java.lang.invoke.MutableCallSite;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import org.codehaus.groovy.GroovyBugError;
 import org.codehaus.groovy.control.ParserPluginFactory;
 import org.codehaus.groovy.control.SourceUnit;
+import org.codehaus.groovy.runtime.GeneratedClosure;
 import org.codehaus.groovy.runtime.memoize.MemoizeCache;
 import org.codehaus.groovy.vmplugin.v8.CacheableCallSite;
 import org.codehaus.groovy.vmplugin.v8.IndyInterface;
@@ -37,7 +43,7 @@ final class GroovySubstitutions {
 @TargetClass(className = "org.codehaus.groovy.vmplugin.v8.MethodHandleWrapper")
 final class SubstituteMethodHandleWrapper {
 
-    @Alias
+    @Substitute
     public boolean isCanSetTarget() {
         return false;
     }
@@ -61,6 +67,17 @@ final class SubstituteIndyFallbackSupplier {
     SubstituteMethodHandleWrapper get() {
         return null;
     }
+}
+
+/**
+ * GraalVM substitutes {@code MutableCallSite.setTarget} with an unsupported-feature error, so the target is written
+ * directly to the field instead.
+ */
+@TargetClass(CallSite.class)
+final class SubstituteCallSite {
+
+    @Alias
+    MethodHandle target;
 }
 
 @TargetClass(CacheableCallSite.class)
@@ -95,6 +112,51 @@ final class SubstituteIndyInterface {
     @Alias
     private static boolean bypassCache(Boolean spreadCall, Object[] arguments) {
         return false;
+    }
+
+    @Alias
+    private static MethodHandle FROM_CACHE_HANDLE_METHOD;
+
+    @Alias
+    protected static MethodHandle makeFallBack(MutableCallSite mc, Class<?> sender, String name, int callID,
+            MethodType type, boolean safeNavigation, boolean thisCall, boolean spreadCall) {
+        return null;
+    }
+
+    @Alias
+    private static MethodHandle makeBootHandle(MutableCallSite mc, Class<?> sender, String name, int callID,
+            MethodType type, boolean safeNavigation, boolean thisCall, boolean spreadCall, MethodHandle fromCache) {
+        return null;
+    }
+
+    /**
+     * Same as the original bootstrap except that the call site target is set without {@code MutableCallSite.setTarget}.
+     */
+    @Substitute
+    public static CallSite bootstrap(MethodHandles.Lookup caller, String callType, MethodType type, String name,
+            int flags) {
+        IndyInterface.CallType ct = IndyInterface.CallType.fromCallSiteName(callType);
+        if (ct == null) {
+            throw new GroovyBugError("Unknown call type: " + callType);
+        }
+        boolean safe = (flags & IndyInterface.SAFE_NAVIGATION) != 0;
+        boolean thisCall = (flags & IndyInterface.THIS_CALL) != 0;
+        boolean spreadCall = (flags & IndyInterface.SPREAD_CALL) != 0;
+
+        CacheableCallSite mc = new CacheableCallSite(type, caller);
+        Class<?> sender = caller.lookupClass();
+        if (thisCall) {
+            while (GeneratedClosure.class.isAssignableFrom(sender)) {
+                sender = sender.getEnclosingClass();
+            }
+        }
+        int callID = ct.getOrderNumber();
+        MethodHandle mh = makeBootHandle(mc, sender, name, callID, type, safe, thisCall, spreadCall,
+                FROM_CACHE_HANDLE_METHOD);
+        ((SubstituteCallSite) (Object) mc).target = mh;
+        mc.setDefaultTarget(mh);
+        mc.setFallbackTarget(makeFallBack(mc, sender, name, callID, type, safe, thisCall, spreadCall));
+        return mc;
     }
 
     @Alias

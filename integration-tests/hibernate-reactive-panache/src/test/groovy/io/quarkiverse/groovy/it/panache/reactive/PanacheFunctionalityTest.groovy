@@ -18,7 +18,6 @@ package io.quarkiverse.groovy.it.panache.reactive
 
 import jakarta.inject.Inject
 import org.hibernate.reactive.mutiny.Mutiny
-import org.junit.jupiter.api.Disabled
 
 import static org.hamcrest.Matchers.is
 import static org.junit.jupiter.api.Assertions.assertEquals
@@ -40,7 +39,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import io.quarkiverse.groovy.hibernate.reactive.panache.Panache
 import io.quarkus.hibernate.reactive.panache.common.WithSession
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction
-import io.quarkus.hibernate.reactive.panache.common.runtime.ReactiveTransactional
 import io.quarkus.test.TestReactiveTransaction
 import io.quarkus.test.junit.DisabledOnIntegrationTest
 import io.quarkus.test.junit.QuarkusTest
@@ -72,7 +70,7 @@ class PanacheFunctionalityTest {
         this.personDao = personDao
     }
 
-    @DisabledOnIntegrationTest
+    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/336")
     @Test
     void testPanacheFunctionality() throws Exception {
         RestAssured.when().get("/test/model-dao").then().body(is("OK"))
@@ -81,8 +79,7 @@ class PanacheFunctionalityTest {
 
         RestAssured.when().get("/test/model1").then().body(is("OK"))
         RestAssured.when().get("/test/model2").then().body(is("OK"))
-        // TODO: Fix behavior change since Quarkus 3.26.0 ref https://github.com/quarkiverse/quarkus-groovy/issues/296
-        //RestAssured.when().get("/test/projection1").then().body(is("OK"))
+        RestAssured.when().get("/test/projection1").then().body(is("OK"))
         RestAssured.when().get("/test/projection2").then().body(is("OK"))
         RestAssured.when().get("/test/model3").then().body(is("OK"))
     }
@@ -95,20 +92,18 @@ class PanacheFunctionalityTest {
                 .body(is('{"id":666,"dogs":[],"name":"Eddie","serialisationTrick":1,"status":"DECEASED"}'))
     }
 
-    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/397")
+    @DisabledOnIntegrationTest
     @RunOnVertxContext
     @Test
     void testPanacheInTest(UniAsserter asserter) {
         asserter.assertEquals({ Panache.withSession({ personDao.count() }) }, 0l)
     }
 
-    @Disabled("https://github.com/quarkiverse/quarkus-groovy/issues/329")
     @Test
     void testBug5274() {
         RestAssured.when().get("/test/5274").then().body(is("OK"))
     }
 
-    @Disabled("https://github.com/quarkiverse/quarkus-groovy/issues/329")
     @Test
     void testBug5885() {
         RestAssured.when().get("/test/5885").then().body(is("OK"))
@@ -180,13 +175,13 @@ class PanacheFunctionalityTest {
         RestAssured.when().get("/test/9025").then().body(is("OK"))
     }
 
-    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/397")
+    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/336")
     @Test
     void testBug9036() {
         RestAssured.when().get("/test/9036").then().body(is("OK"))
     }
 
-    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/397")
+    @DisabledOnIntegrationTest("https://github.com/quarkiverse/quarkus-groovy/issues/336")
     @Test
     void testSortByNullPrecedence() {
         RestAssured.when().get("/test/testSortByNullPrecedence").then().body(is("OK"))
@@ -316,7 +311,7 @@ class PanacheFunctionalityTest {
         asserter.assertEquals({ testReactiveTransactional3() }, 1l)
     }
 
-    @ReactiveTransactional
+    @WithTransaction
     Uni<Long> testReactiveTransactional3() {
         Panache.currentTransaction()
                 .map { tx -> assertNotNull(tx) }
