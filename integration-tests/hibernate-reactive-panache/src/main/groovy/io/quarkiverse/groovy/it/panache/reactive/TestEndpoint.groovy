@@ -1629,7 +1629,7 @@ class TestEndpoint {
                                         .project(CatProjectionBean.class)
                             })
                     Assertions.assertTrue(
-                            exception.getMessage().startsWith("Unable to perform a projection on a 'select new' query"))
+                            exception.getMessage().startsWith("Unable to perform a projection on a 'select [distinct]? new' query"))
                 }
                 .flatMap {
                     catRepository
