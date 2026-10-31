@@ -32,14 +32,13 @@ import jakarta.xml.bind.Marshaller
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.ObjectMapper
-
 import io.quarkus.hibernate.orm.runtime.PersistenceUnitUtil
 import io.quarkus.test.junit.DisabledOnIntegrationTest
 import io.quarkus.test.junit.QuarkusTest
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
+import io.vertx.core.json.JsonObject;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Test various Panache operations running in Quarkus
@@ -129,20 +128,20 @@ class PanacheFunctionalityTest {
      */
     @DisabledOnIntegrationTest
     @Test
-    void jacksonDeserializationIgnoresPersistentAttribute() throws JsonProcessingException {
+    void jacksonDeserializationIgnoresPersistentAttribute() {
         // set Up
         Person person = new Person()
         person.name = "max"
         // do
-        ObjectMapper objectMapper = new ObjectMapper()
         // make sure the Jaxb module is loaded
-        objectMapper.findAndRegisterModules()
+        ObjectMapper objectMapper = new ObjectMapper();
         String personAsString = objectMapper.writeValueAsString(person)
         // check
         // hence no 'persistence'-attribute
         assertEquals(
-                "{\"id\":null,\"name\":\"max\",\"uniqueName\":null,\"address\":null,\"status\":null,\"dogs\":[],\"serialisationTrick\":1}",
-                personAsString)
+                new JsonObject(
+                        "{\"id\":null,\"name\":\"max\",\"uniqueName\":null,\"address\":null,\"description\":null,\"status\":null,\"dogs\":[],\"serialisationTrick\":1}"),
+                new JsonObject(personAsString));
     }
 
     /**
@@ -150,7 +149,7 @@ class PanacheFunctionalityTest {
      */
     @DisabledOnIntegrationTest
     @Test
-    void jaxbDeserializationHasAllFields() throws JsonProcessingException, JAXBException {
+    void jaxbDeserializationHasAllFields() throws JAXBException {
         // set Up
         Person person = new Person().tap {
             name = "max"
@@ -171,7 +170,7 @@ class PanacheFunctionalityTest {
      */
     @DisabledOnIntegrationTest
     @Test
-    void jsonbDeserializationHasAllFields() throws JsonProcessingException {
+    void jsonbDeserializationHasAllFields() {
         // set Up
         Person person = new Person()
         person.name = "max"
