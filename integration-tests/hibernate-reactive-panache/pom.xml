@@ -162,6 +162,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven-surefire-plugin.version}</version>
                 <executions>
                     <!--
                     The prod mode tests need to be part of a different execution to ensure that they don't mess with the standard tests.
