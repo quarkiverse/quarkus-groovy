@@ -16,6 +16,7 @@
  */
 package io.quarkiverse.groovy.it.resteasy.reactive
 
+import io.quarkus.runtime.annotations.RegisterForReflection
 import io.smallrye.mutiny.Uni
 import jakarta.enterprise.context.ApplicationScoped
 import org.eclipse.microprofile.reactive.messaging.Incoming
@@ -24,6 +25,7 @@ import org.eclipse.microprofile.reactive.messaging.Outgoing
 import java.time.Duration
 
 @ApplicationScoped
+@RegisterForReflection(targets = [String.class]) // Needed by the dynamic call of toUpperCase in the closure
 class CountryNamePayloadTransformer {
 
     @Incoming("countries-in")

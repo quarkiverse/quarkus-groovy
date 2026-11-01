@@ -16,6 +16,7 @@
  */
 package io.quarkiverse.groovy.it.panache
 
+import jakarta.persistence.Embedded
 import jakarta.xml.bind.annotation.XmlElement
 
 import static io.quarkiverse.groovy.hibernate.orm.panache.runtime.JpaOperations.INSTANCE
@@ -29,6 +30,8 @@ import jakarta.persistence.FetchType
 import jakarta.persistence.ManyToOne
 import jakarta.persistence.NamedQueries
 import jakarta.persistence.NamedQuery
+import jakarta.persistence.NamedStatement
+import jakarta.persistence.NamedStatements
 import jakarta.persistence.OneToMany
 import jakarta.persistence.Transient
 import jakarta.xml.bind.annotation.XmlRootElement
@@ -51,12 +54,14 @@ import io.quarkiverse.groovy.hibernate.orm.panache.PanacheQuery
         @NamedQuery(name = "Person.countAll", query = "select count(*) from Person2"),
         @NamedQuery(name = "Person.countByName", query = "select count(*) from Person2 where name = :name"),
         @NamedQuery(name = "Person.countByName.ordinal", query = "select count(*) from Person2 where name = ?1"),
-        @NamedQuery(name = "Person.updateAllNames", query = "Update Person2 p set p.name = :name"),
-        @NamedQuery(name = "Person.updateNameById", query = "Update Person2 p set p.name = :name where p.id = :id"),
-        @NamedQuery(name = "Person.updateNameById.ordinal", query = "Update Person2 p set p.name = ?1 where p.id = ?2"),
-        @NamedQuery(name = "Person.deleteAll", query = "delete from Person2"),
-        @NamedQuery(name = "Person.deleteById", query = "delete from Person2 p where p.id = :id"),
-        @NamedQuery(name = "Person.deleteById.ordinal", query = "delete from Person2 p where p.id = ?1"),
+])
+@NamedStatements([
+        @NamedStatement(name = "Person.updateAllNames", statement = "Update Person2 p set p.name = :name"),
+        @NamedStatement(name = "Person.updateNameById", statement = "Update Person2 p set p.name = :name where p.id = :id"),
+        @NamedStatement(name = "Person.updateNameById.ordinal", statement = "Update Person2 p set p.name = ?1 where p.id = ?2"),
+        @NamedStatement(name = "Person.deleteAll", statement = "delete from Person2"),
+        @NamedStatement(name = "Person.deleteById", statement = "delete from Person2 p where p.id = :id"),
+        @NamedStatement(name = "Person.deleteById.ordinal", statement = "delete from Person2 p where p.id = ?1"),
 ])
 @FilterDef(name = "Person.hasName", defaultCondition = "name = :name", parameters = @ParamDef(name = "name", type = String.class))
 @FilterDef(name = "Person.isAlive", defaultCondition = "status = 'LIVING'")
@@ -72,6 +77,8 @@ class Person extends PanacheEntity {
     public String uniqueName
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public Address address
+    @Embedded
+    public PersonDescription description
     @Enumerated(EnumType.STRING)
     public Status status
     @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, fetch = FetchType.LAZY)

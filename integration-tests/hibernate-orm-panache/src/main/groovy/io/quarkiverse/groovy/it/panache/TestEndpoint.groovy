@@ -44,7 +44,7 @@ import jakarta.xml.bind.annotation.XmlAttribute
 import jakarta.xml.bind.annotation.XmlTransient
 
 import org.hibernate.engine.spi.SelfDirtinessTracker
-import org.hibernate.jpa.QueryHints
+import org.hibernate.jpa.HibernateHints
 import org.junit.jupiter.api.Assertions
 
 import io.quarkiverse.groovy.hibernate.orm.panache.PanacheQuery
@@ -155,7 +155,7 @@ class TestEndpoint {
         Assertions.assertEquals(person, persons.get(0))
 
         // next calls to this query will be cached
-        persons = personDao.find("name = ?1", "stef").withHint(QueryHints.HINT_CACHEABLE, "true").list()
+        persons = personDao.find("name = ?1", "stef").withHint(HibernateHints.HINT_CACHEABLE, "true").list()
         Assertions.assertEquals(1, persons.size())
         Assertions.assertEquals(person, persons.get(0))
 

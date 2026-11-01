@@ -24,7 +24,7 @@ import jakarta.persistence.LockModeType
 import jakarta.ws.rs.WebApplicationException
 
 import org.hibernate.Session
-import org.hibernate.query.Query
+import org.hibernate.query.SelectionQuery
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Order
@@ -44,7 +44,7 @@ class PanacheMockingTest {
 
     @BeforeEach
     void setup() {
-        Query mockQuery = Mockito.mock(Query.class)
+        SelectionQuery mockQuery = Mockito.mock(SelectionQuery.class)
         Mockito.doNothing().when(session).persist(Mockito.any())
         Mockito.when(session.createSelectionQuery(Mockito.anyString(), Mockito.any(Class.class))).thenReturn(mockQuery)
         Mockito.when(mockQuery.getSingleResult()).thenReturn(0l)

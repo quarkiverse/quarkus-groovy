@@ -63,9 +63,9 @@ class FlowResourceTest {
         testSse("json", 10) {
             assertThat(it)
                 .containsExactly(
-                    "{\"name\":\"Barbados\",\"capital\":\"Bridgetown\"}",
-                    "{\"name\":\"Mauritius\",\"capital\":\"Port Louis\"}",
-                    "{\"name\":\"Fiji\",\"capital\":\"Suva\"}"
+                    "{\"capital\":\"Bridgetown\",\"name\":\"Barbados\"}",
+                    "{\"capital\":\"Port Louis\",\"name\":\"Mauritius\"}",
+                    "{\"capital\":\"Suva\",\"name\":\"Fiji\"}"
                 )
         }
     }

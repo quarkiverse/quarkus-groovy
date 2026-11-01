@@ -32,9 +32,6 @@ import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.TestMethodOrder
 
-import com.fasterxml.jackson.core.JsonProcessingException
-import com.fasterxml.jackson.databind.ObjectMapper
-
 import io.quarkiverse.groovy.hibernate.reactive.panache.Panache
 import io.quarkus.hibernate.reactive.panache.common.WithSession
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction
@@ -46,6 +43,9 @@ import io.quarkus.test.vertx.UniAsserter
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import io.smallrye.mutiny.Uni
+
+import io.vertx.core.json.JsonObject;
+import tools.jackson.databind.ObjectMapper;
 
 /**
  * Test various Panache operations running in Quarkus
@@ -116,20 +116,19 @@ class PanacheFunctionalityTest {
      */
     @DisabledOnIntegrationTest
     @Test
-    void jacksonDeserializationIgnoresPersistentAttribute() throws JsonProcessingException {
+    void jacksonDeserializationIgnoresPersistentAttribute() {
         // set Up
         Person person = new Person()
         person.name = "max"
         // do
-        ObjectMapper objectMapper = new ObjectMapper()
-        // make sure the Jaxb module is loaded
-        objectMapper.findAndRegisterModules()
+        ObjectMapper objectMapper = new ObjectMapper();
         String personAsString = objectMapper.writeValueAsString(person)
         // check
         // hence no 'persistence'-attribute
         assertEquals(
-                "{\"id\":null,\"name\":\"max\",\"uniqueName\":null,\"address\":null,\"status\":null,\"dogs\":[],\"serialisationTrick\":1}",
-                personAsString)
+                new JsonObject(
+                        "{\"id\":null,\"name\":\"max\",\"uniqueName\":null,\"address\":null,\"description\":null,\"status\":null,\"dogs\":[],\"serialisationTrick\":1}"),
+                new JsonObject(personAsString));
     }
 
     /**
@@ -137,7 +136,7 @@ class PanacheFunctionalityTest {
      */
     @DisabledOnIntegrationTest
     @Test
-    void jsonbDeserializationHasAllFields() throws JsonProcessingException {
+    void jsonbDeserializationHasAllFields() {
         // set Up
         Person person = new Person()
         person.name = "max"
