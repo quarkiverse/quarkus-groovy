@@ -4,11 +4,7 @@ plugins {
 }
 
 repositories {
-    mavenLocal {
-        content {
-            includeGroupByRegex 'io.quarkus.*|io.quarkiverse.groovy.*'
-        }
-    }
+    mavenLocal()
     mavenCentral()
     maven {
         url = uri("https://s01.oss.sonatype.org/content/repositories/snapshots/")
