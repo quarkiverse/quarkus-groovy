@@ -38,7 +38,7 @@
     <maven-surefire-plugin.version>3.6.1</maven-surefire-plugin.version>
     <assertj.version>3.27.7</assertj.version>
     <script.extension>sh</script.extension>
-    <graal-sdk.version>25.4.4.1.1</graal-sdk.version>
+    <graal-sdk.version>25.5.5.0.3</graal-sdk.version>
     <docker-prune.location>${maven.multiModuleProjectDirectory}/.github/docker-prune.${script.extension}</docker-prune.location>
   </properties>
   <dependencyManagement>
