@@ -34,7 +34,7 @@
     <jandex-maven-plugin.version>3.6.1</jandex-maven-plugin.version>
     <hibernate-orm.version>8.0.0.Beta3</hibernate-orm.version>
     <docker-maven-plugin.version>0.49.0</docker-maven-plugin.version>
-    <exec-maven-plugin.version>3.6.4</exec-maven-plugin.version>
+    <exec-maven-plugin.version>3.7.0</exec-maven-plugin.version>
     <maven-surefire-plugin.version>3.6.1</maven-surefire-plugin.version>
     <assertj.version>3.27.7</assertj.version>
     <script.extension>sh</script.extension>
