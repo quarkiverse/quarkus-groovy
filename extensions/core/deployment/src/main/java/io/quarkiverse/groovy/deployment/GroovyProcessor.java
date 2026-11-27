@@ -26,10 +26,12 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
 
+import org.jboss.jandex.ClassInfo;
 import org.jboss.jandex.DotName;
 import org.jboss.jandex.IndexView;
 
 import groovy.lang.Closure;
+import groovy.lang.GroovyObject;
 import io.quarkiverse.groovy.runtime.GroovyRecorder;
 import io.quarkus.bootstrap.classloading.QuarkusClassLoader;
 import io.quarkus.deployment.IsTest;
@@ -42,6 +44,7 @@ import io.quarkus.deployment.builditem.FeatureBuildItem;
 import io.quarkus.deployment.builditem.ServiceStartBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.NativeImageProxyDefinitionBuildItem;
 import io.quarkus.deployment.builditem.nativeimage.ReflectiveClassBuildItem;
+import io.quarkus.deployment.builditem.nativeimage.RuntimeInitializedClassBuildItem;
 import io.quarkus.deployment.pkg.steps.NativeBuild;
 
 class GroovyProcessor {
@@ -78,6 +81,20 @@ class GroovyProcessor {
             break;
         }
         reflectiveClass.produce(ReflectiveClassBuildItem.builder(dgmClassNames.toArray(new String[0])).build());
+    }
+
+    /*
+     * Groovy enums must not be initialized at build time since their static initializer bootstraps invokedynamic call
+     * sites that cannot be stored in the image heap.
+     */
+    @BuildStep(onlyIf = NativeBuild.class)
+    void initializeGroovyEnumsAtRuntime(final CombinedIndexBuildItem combinedIndex,
+            final BuildProducer<RuntimeInitializedClassBuildItem> runtimeInitializedClass) {
+        combinedIndex.getIndex().getAllKnownImplementors(DotName.createSimple(GroovyObject.class))
+                .stream()
+                .filter(ClassInfo::isEnum)
+                .forEach(classInfo -> runtimeInitializedClass
+                        .produce(new RuntimeInitializedClassBuildItem(classInfo.name().toString())));
     }
 
     @BuildStep(onlyIf = NativeBuild.class)
